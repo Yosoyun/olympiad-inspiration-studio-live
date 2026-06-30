@@ -906,6 +906,460 @@
       font-weight: 700;
     }
 
+    /* Premium command-desk refresh */
+    body {
+      background:
+        linear-gradient(180deg, rgba(22, 31, 38, .055), transparent 210px),
+        linear-gradient(90deg, rgba(31, 58, 82, .045) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(156, 111, 37, .045) 1px, transparent 1px),
+        #f5efe4;
+      background-size: auto, 48px 48px, 48px 48px, auto;
+    }
+
+    body[data-mode="story"] [data-view="archive"],
+    body[data-mode="archive"] [data-view="story"],
+    body[data-mode="archive"] .sidebar,
+    body[data-mode="archive"] .top-actions {
+      display: none;
+    }
+
+    body[data-mode="archive"] .main {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    body[data-mode="archive"] .workspace {
+      display: block;
+    }
+
+    .topbar {
+      grid-template-columns: minmax(280px, auto) minmax(260px, 1fr) auto;
+      background: rgba(24, 21, 17, .96);
+      color: #fff9ec;
+      border-top: 0;
+      border-bottom: 1px solid rgba(244, 215, 147, .28);
+      box-shadow: 0 20px 48px rgba(21, 18, 14, .22);
+    }
+
+    .brandmark {
+      border-color: rgba(244, 215, 147, .72);
+      background: #f4d793;
+      color: #17130d;
+      box-shadow: inset 0 0 0 1px rgba(23, 19, 13, .18);
+    }
+
+    .brand h1 {
+      color: #fff9ec;
+      letter-spacing: .01em;
+    }
+
+    .brand p {
+      color: rgba(255, 249, 236, .68);
+    }
+
+    .view-switcher {
+      justify-self: center;
+      display: inline-grid;
+      grid-template-columns: repeat(2, minmax(128px, 1fr));
+      gap: 4px;
+      min-height: 44px;
+      padding: 4px;
+      border: 1px solid rgba(244, 215, 147, .2);
+      border-radius: 8px;
+      background: rgba(255, 249, 236, .08);
+    }
+
+    .mode-tab {
+      min-height: 34px;
+      border: 0;
+      border-radius: 6px;
+      padding: 0 14px;
+      color: rgba(255, 249, 236, .72);
+      background: transparent;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .mode-tab.active {
+      color: #17130d;
+      background: #f4d793;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .18);
+    }
+
+    .top-actions button {
+      color: #fff9ec;
+      border-color: rgba(244, 215, 147, .28);
+      background: rgba(255, 249, 236, .08);
+    }
+
+    .top-actions button:hover {
+      border-color: rgba(244, 215, 147, .66);
+      background: rgba(255, 249, 236, .14);
+    }
+
+    .top-actions .primary {
+      color: #17130d !important;
+      background: #f4d793 !important;
+      border-color: #f4d793 !important;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .18);
+    }
+
+    .today-command {
+      padding: 0 12px;
+    }
+
+    .main {
+      gap: 22px;
+      padding-top: 22px;
+    }
+
+    .sidebar,
+    .stage,
+    .detail-panel,
+    .whatsapp-panel,
+    .archive-panel {
+      border-color: rgba(41, 36, 30, .14);
+      background: rgba(255, 253, 247, .98);
+      box-shadow: 0 18px 48px rgba(31, 28, 23, .1);
+    }
+
+    .sidebar {
+      top: 96px;
+      border-color: rgba(23, 19, 13, .12);
+    }
+
+    .filters {
+      gap: 12px;
+      padding: 16px;
+      background: #fffdf8;
+    }
+
+    label {
+      color: #6d6256;
+      letter-spacing: .08em;
+    }
+
+    input,
+    select {
+      min-height: 44px;
+      border-color: #d8cbb8;
+      background: #fffefb;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8);
+    }
+
+    input:hover,
+    select:hover,
+    textarea:hover {
+      border-color: #b99b61;
+    }
+
+    .stat-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      padding: 0;
+      background: #d9c8ad;
+    }
+
+    .stat {
+      min-height: 58px;
+      border: 0;
+      border-radius: 0;
+      padding: 10px 12px;
+      background: #fbf7ed;
+    }
+
+    .stat strong {
+      font-size: 22px;
+    }
+
+    .person-list {
+      padding: 10px;
+      background: #fffdf8;
+    }
+
+    .person-button {
+      min-height: 68px;
+      margin-bottom: 4px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      transition: background .16s ease, border-color .16s ease, transform .16s ease;
+    }
+
+    .person-button:hover {
+      border-color: rgba(156, 111, 37, .25);
+      background: #f8f0df;
+      transform: translateY(-1px);
+    }
+
+    .person-button.active {
+      border-color: rgba(156, 111, 37, .55);
+      background: linear-gradient(90deg, #fbecd0, #fff8e8);
+      box-shadow: inset 4px 0 0 #9c6f25;
+    }
+
+    .avatar,
+    .hero-avatar {
+      border-radius: 8px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .24);
+    }
+
+    .stage {
+      position: relative;
+      background:
+        linear-gradient(135deg, rgba(255, 253, 247, .98), rgba(246, 238, 223, .92) 54%, rgba(232, 241, 238, .9)),
+        #fffdf7;
+      border-top: 1px solid rgba(23, 19, 13, .18);
+      box-shadow: 0 26px 70px rgba(37, 31, 24, .14);
+    }
+
+    .stage::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 6px;
+      background: linear-gradient(180deg, #17130d, #9c6f25, #386f66);
+    }
+
+    .stage-inner {
+      padding: clamp(24px, 3.2vw, 42px);
+    }
+
+    .date-row {
+      color: #74695c;
+      letter-spacing: .02em;
+    }
+
+    h2 {
+      font-size: clamp(38px, 4.2vw, 62px);
+      line-height: .96;
+    }
+
+    .role {
+      color: #665b50;
+      font-weight: 650;
+    }
+
+    .headline {
+      max-width: 820px;
+      color: #19130c;
+      font-size: clamp(22px, 2vw, 30px);
+      line-height: 1.22;
+    }
+
+    .chip {
+      min-height: 32px;
+      background: #fffdf7;
+      border-color: #d9c8ad;
+      box-shadow: 0 6px 18px rgba(41, 36, 30, .05);
+    }
+
+    .stage-card {
+      align-self: stretch;
+      border-color: rgba(23, 19, 13, .12);
+      background: rgba(255, 253, 247, .84);
+      box-shadow: 0 12px 32px rgba(41, 36, 30, .07);
+    }
+
+    .stage-card h3 {
+      color: #265e57;
+      letter-spacing: .08em;
+    }
+
+    .detail-panel,
+    .archive-panel {
+      background: #fffdf8;
+    }
+
+    .section-head {
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(23, 19, 13, .09);
+    }
+
+    .section-head h3 {
+      color: #6b5f52;
+      letter-spacing: .11em;
+    }
+
+    .pill {
+      border-color: #d8c9ae;
+      background: #f8f0df;
+      color: #2c251c;
+    }
+
+    .info-card,
+    .timeline,
+    .sources,
+    .proof-panel {
+      border-color: rgba(23, 19, 13, .12);
+      background: #fffefa;
+      box-shadow: 0 10px 28px rgba(41, 36, 30, .045);
+    }
+
+    .info-card {
+      min-height: 190px;
+    }
+
+    .timeline {
+      background: #f8f0df;
+    }
+
+    .proof-panel {
+      background: linear-gradient(180deg, #f9edcb, #fffdf8);
+      border-color: rgba(156, 111, 37, .35);
+    }
+
+    .bullet-list li::before {
+      background: #9c6f25;
+      box-shadow: 0 0 0 3px rgba(156, 111, 37, .12);
+    }
+
+    .whatsapp-panel {
+      top: 96px;
+      border-color: rgba(23, 19, 13, .14);
+      background: #17130d;
+    }
+
+    .message-toolbar {
+      align-items: flex-start;
+      padding: 16px;
+      color: #fff9ec;
+      border-bottom-color: rgba(244, 215, 147, .22);
+      background: #17130d;
+    }
+
+    .message-toolbar h3 {
+      color: #fff9ec;
+      font-size: 17px;
+      letter-spacing: .08em;
+    }
+
+    .message-actions button {
+      color: #fff9ec;
+      border-color: rgba(244, 215, 147, .28);
+      background: rgba(255, 249, 236, .08);
+    }
+
+    .message-actions button:hover {
+      border-color: rgba(244, 215, 147, .6);
+    }
+
+    .message-frame {
+      padding: 16px;
+      background:
+        linear-gradient(180deg, rgba(244, 215, 147, .08), rgba(56, 111, 102, .08)),
+        #211b14;
+    }
+
+    textarea {
+      min-height: 720px;
+      border-color: rgba(244, 215, 147, .3);
+      background: #fffdf7;
+      box-shadow: inset 0 0 0 1px rgba(23, 19, 13, .03), 0 18px 42px rgba(0, 0, 0, .18);
+      line-height: 1.76;
+    }
+
+    .archive-panel {
+      padding: clamp(20px, 3vw, 32px);
+      box-shadow: 0 24px 70px rgba(31, 28, 23, .12);
+    }
+
+    .archive-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+    }
+
+    .archive-head h3 {
+      color: #17130d;
+      font-family: var(--serif);
+      font-size: clamp(24px, 2.4vw, 34px);
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .archive-head p,
+    .archive-note {
+      max-width: 850px;
+      color: #6b5f52;
+    }
+
+    .archive-stats {
+      gap: 10px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    .archive-stats .stat {
+      min-height: 74px;
+      border: 1px solid rgba(23, 19, 13, .12);
+      border-radius: 8px;
+      background: linear-gradient(180deg, #fffefa, #f7efdf);
+      box-shadow: 0 10px 26px rgba(41, 36, 30, .05);
+    }
+
+    .archive-controls {
+      position: sticky;
+      top: 84px;
+      z-index: 4;
+      margin: 14px 0;
+      border: 1px solid rgba(23, 19, 13, .12);
+      border-radius: 8px;
+      padding: 12px;
+      background: rgba(255, 253, 248, .94);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 14px 34px rgba(41, 36, 30, .08);
+    }
+
+    .archive-controls button {
+      color: #fff9ec;
+      border-color: #17130d;
+      background: #17130d;
+    }
+
+    .archive-table-wrap {
+      max-height: 72vh;
+      border-color: rgba(23, 19, 13, .14);
+      box-shadow: 0 18px 48px rgba(41, 36, 30, .08);
+    }
+
+    .archive-table {
+      font-size: 14.5px;
+    }
+
+    .archive-table th {
+      top: 0;
+      color: #fff9ec;
+      background: #17130d;
+      border-bottom-color: rgba(244, 215, 147, .24);
+      letter-spacing: .08em;
+    }
+
+    .archive-table td {
+      border-bottom-color: rgba(23, 19, 13, .08);
+    }
+
+    .archive-table tbody tr:hover td {
+      background: #fbf2e1;
+    }
+
+    .medalist-name {
+      font-size: 16px;
+    }
+
+    .archive-proof,
+    .archive-open {
+      border-color: rgba(31, 58, 82, .25);
+      background: #eef4f3;
+      color: #1f3a52;
+    }
+
+    .archive-open {
+      display: block;
+      color: #fff9ec;
+      border-color: #386f66;
+      background: #386f66;
+    }
+
     @media (max-width: 1160px) {
       .content-grid {
         grid-template-columns: 1fr;
@@ -974,6 +1428,15 @@
         grid-template-columns: 1fr;
       }
 
+      .archive-head {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .archive-head .pill {
+        justify-self: start;
+      }
+
       .profile-heading,
       .date-row,
       .message-toolbar {
@@ -988,20 +1451,24 @@
     }
   </style>
 </head>
-<body>
+<body data-mode="story">
   <div class="app-shell">
     <header class="topbar">
       <div class="brand">
         <div class="brandmark">OI</div>
         <div>
           <h1>The Olympiad Almanac</h1>
-          <p>Verified daily stories for students, parents, and teachers.</p>
+          <p>Daily story studio plus official IMO archive.</p>
         </div>
       </div>
+      <div class="view-switcher" role="tablist" aria-label="Workspace mode">
+        <button class="mode-tab active" data-mode-button="story" type="button" role="tab" aria-selected="true">Story Studio</button>
+        <button class="mode-tab" data-mode-button="archive" type="button" role="tab" aria-selected="false">IMO Archive</button>
+      </div>
       <div class="top-actions">
-        <button class="icon-btn" id="prevBtn" type="button" title="Previous profile" aria-label="Previous profile">&lt;</button>
-        <button class="icon-btn" id="todayBtn" type="button" title="Today's profile" aria-label="Today's profile">T</button>
-        <button class="icon-btn" id="nextBtn" type="button" title="Next profile" aria-label="Next profile">&gt;</button>
+        <button class="icon-btn" id="prevBtn" type="button" title="Previous profile" aria-label="Previous profile">‹</button>
+        <button class="today-command" id="todayBtn" type="button" title="Today's profile" aria-label="Today's profile">Today</button>
+        <button class="icon-btn" id="nextBtn" type="button" title="Next profile" aria-label="Next profile">›</button>
         <button class="primary" id="copyTopBtn" type="button">Copy WhatsApp</button>
       </div>
     </header>
@@ -1027,7 +1494,7 @@
       </aside>
 
       <section class="workspace" aria-live="polite">
-        <article class="stage">
+        <article class="stage" data-view="story">
           <div class="stage-inner">
             <div>
               <div class="date-row">
@@ -1053,7 +1520,7 @@
           </div>
         </article>
 
-        <section class="content-grid">
+        <section class="content-grid" data-view="story">
           <article class="detail-panel">
             <div class="section-head">
               <h3>Deep Profile</h3>
@@ -1121,7 +1588,7 @@
           </aside>
         </section>
 
-        <section class="archive-panel" id="medalistArchive">
+        <section class="archive-panel" id="medalistArchive" data-view="archive">
           <div class="section-head archive-head">
             <div>
               <h3>Verified IMO Medalist Directory</h3>
@@ -1192,6 +1659,7 @@
       query: "",
       domain: "all",
       region: "all",
+      mode: "story",
       archiveQuery: "",
       archiveAward: "all",
       archiveCountry: "all"
@@ -1211,6 +1679,7 @@
       copySourcesBtn: document.getElementById("copySourcesBtn"),
       downloadProfileBtn: document.getElementById("downloadProfileBtn"),
       downloadAllBtn: document.getElementById("downloadAllBtn"),
+      modeButtons: document.querySelectorAll("[data-mode-button]"),
       dateLabel: document.getElementById("dateLabel"),
       rotationLabel: document.getElementById("rotationLabel"),
       heroAvatar: document.getElementById("heroAvatar"),
@@ -1569,6 +2038,7 @@
           open.textContent = "Open story";
           open.addEventListener("click", () => {
             state.activeId = profile.id;
+            setMode("story");
             render();
             window.scrollTo({ top: 0, behavior: "smooth" });
           });
@@ -1796,7 +2266,23 @@
       renderStats();
       renderProfileList();
       renderProfile();
-      renderMedalistArchive();
+      if (state.mode === "archive") {
+        renderMedalistArchive();
+      }
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      document.body.dataset.mode = mode;
+      els.modeButtons.forEach((button) => {
+        const active = button.dataset.modeButton === mode;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", String(active));
+      });
+      if (mode === "archive") {
+        renderMedalistArchive();
+        window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+      }
     }
 
     els.searchInput.addEventListener("input", (event) => {
@@ -1821,6 +2307,10 @@
         state.activeId = filtered[0].id;
       }
       render();
+    });
+
+    els.modeButtons.forEach((button) => {
+      button.addEventListener("click", () => setMode(button.dataset.modeButton));
     });
 
     els.archiveSearchInput.addEventListener("input", (event) => {
