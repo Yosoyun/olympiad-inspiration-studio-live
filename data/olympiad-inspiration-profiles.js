@@ -1663,5 +1663,536 @@ window.OLYMPIAD_PROFILES = [
       { label: "Axiom Math", url: "https://axiommath.ai/", type: "Company source" },
       { label: "Knight-Hennessy profile: Carina Hong", url: "https://knight-hennessy.stanford.edu/people/carina-hong", type: "University profile" }
     ]
+  },
+  {
+    id: "timothy-gowers",
+    name: "Timothy Gowers",
+    initials: "TG",
+    country: "United Kingdom",
+    region: "Europe",
+    domain: "Mathematics / Public Writing",
+    role: "Fields Medalist, Cambridge mathematician, and public math writer",
+    headline: "A perfect-score IMO gold medalist who made advanced mathematics more public and collaborative.",
+    whyPopular: [
+      "Received the Fields Medal, one of the highest honors in mathematics.",
+      "Known for work in functional analysis, combinatorics, and for making mathematical thinking visible through writing.",
+      "Helped popularize collaborative online mathematics through public problem-solving culture."
+    ],
+    olympiad: [
+      "Won IMO gold for the United Kingdom in 1981.",
+      "The official contestant record shows a perfect 42/42 score.",
+      "His journey is useful for showing how contest precision can mature into research taste and communication."
+    ],
+    trajectory: [
+      "Olympiad phase: built exact proof-writing and problem-solving confidence.",
+      "Research phase: moved into deep areas of analysis and combinatorics.",
+      "Public phase: used writing and online collaboration to help more people see how mathematicians think."
+    ],
+    growthDrivers: [
+      "Very clean mathematical communication.",
+      "Ability to reduce difficult ideas to their structural core.",
+      "A habit of sharing thinking, not only final answers."
+    ],
+    impact: [
+      "Won the Fields Medal in 1998.",
+      "Influenced both professional mathematics and public understanding of mathematical problem solving.",
+      "Shows students that explaining beautifully is also a serious mathematical skill."
+    ],
+    indiaConnect: [
+      "Good for INMO students who write correct ideas but need clearer final solutions.",
+      "Useful for teachers: ask students to explain why a step works, not only write the step.",
+      "A strong reminder that communication can multiply mathematical impact."
+    ],
+    coachingConnect: "",
+    practice: "Rewrite one old solution so that every line answers the question: why is this true?",
+    parentTeacherNote: "A mathematically strong child grows faster when we value clarity, not only speed.",
+    quality: "High confidence through the person-level IMO record and official Fields Medal/Cambridge sources.",
+    proofLinks: [
+      { label: "IMO contestant record: Timothy Gowers", detail: "Official IMO page showing 1981 gold and a perfect 42/42 score.", url: "https://www.imo-official.org/results/contestant/11101/" },
+      { label: "IMU Fields Medal 1998", detail: "Official IMU source for his Fields Medal recognition.", url: "https://www.mathunion.org/imu-awards/fields-medal/fields-medals-1998" }
+    ],
+    sources: [
+      { label: "IMO contestant record: Timothy Gowers", url: "https://www.imo-official.org/results/contestant/11101/", type: "Official IMO results" },
+      { label: "Cambridge profile: Timothy Gowers", url: "https://www.dpmms.cam.ac.uk/person/wtg10", type: "University profile" },
+      { label: "IMU Fields Medal 1998", url: "https://www.mathunion.org/imu-awards/fields-medal/fields-medals-1998", type: "Award source" },
+      { label: "Gowers's Weblog", url: "https://gowers.wordpress.com/", type: "Public writing source" }
+    ]
+  },
+  {
+    id: "jacob-lurie",
+    name: "Jacob Lurie",
+    initials: "JL",
+    country: "United States",
+    region: "North America",
+    domain: "Mathematics / Higher Category Theory",
+    role: "Harvard mathematician and Breakthrough Prize laureate",
+    headline: "An IMO perfect scorer whose abstract mathematics reshaped modern geometry and topology.",
+    whyPopular: [
+      "Known for foundational work in higher category theory and derived algebraic geometry.",
+      "Received the Breakthrough Prize in Mathematics.",
+      "His profile is powerful because it shows how early proof strength can grow into new mathematical language."
+    ],
+    olympiad: [
+      "Won IMO gold for the United States in 1994 with a perfect 42/42 score.",
+      "Also returned in 1995 and earned an IMO silver medal.",
+      "The exact person-level IMO record is available for verification."
+    ],
+    trajectory: [
+      "Olympiad phase: solved hard problems with complete accuracy.",
+      "Research phase: entered very abstract areas where definitions and structures matter deeply.",
+      "Recognition phase: became a leading mathematician whose work is used across modern geometry, topology, and algebra."
+    ],
+    growthDrivers: [
+      "Comfort with abstraction at a very young age.",
+      "Ability to build frameworks, not only solve individual problems.",
+      "Extreme patience with definitions and long chains of reasoning."
+    ],
+    impact: [
+      "Helped shape modern higher category theory.",
+      "Influenced algebraic geometry, topology, and mathematical physics-adjacent areas.",
+      "Shows students that the deepest growth often comes from learning the language behind the problem."
+    ],
+    indiaConnect: [
+      "Useful for advanced INMO students who enjoy abstraction more than formula practice.",
+      "Teachers can use this to show why definitions are not boring; they are the machinery of future discovery.",
+      "Good parent message: some students need intellectual depth, not constant syllabus rushing."
+    ],
+    coachingConnect: "",
+    practice: "Choose one definition from today's topic and create two examples and one non-example.",
+    parentTeacherNote: "When a student asks about the meaning of a definition, that curiosity should be protected.",
+    quality: "High confidence through person-level IMO, Harvard, and Breakthrough Prize sources.",
+    proofLinks: [
+      { label: "IMO contestant record: Jacob Lurie", detail: "Official IMO page showing 1994 gold with 42/42 and 1995 silver.", url: "https://www.imo-official.org/results/contestant/1143/" },
+      { label: "Breakthrough Prize: Jacob Lurie", detail: "Award source for his public research recognition.", url: "https://breakthroughprize.org/Laureates/3/L3805" }
+    ],
+    sources: [
+      { label: "IMO contestant record: Jacob Lurie", url: "https://www.imo-official.org/results/contestant/1143/", type: "Official IMO results" },
+      { label: "Harvard page: Jacob Lurie", url: "https://people.math.harvard.edu/~lurie/", type: "University profile" },
+      { label: "Breakthrough Prize: Jacob Lurie", url: "https://breakthroughprize.org/Laureates/3/L3805", type: "Award source" }
+    ]
+  },
+  {
+    id: "laszlo-lovasz",
+    name: "Laszlo Lovasz",
+    initials: "LL",
+    country: "Hungary",
+    region: "Europe",
+    domain: "Graph Theory / Theoretical Computer Science",
+    role: "Abel Prize laureate and graph theory pioneer",
+    headline: "An IMO gold medalist whose graph theory became part of modern computer science.",
+    whyPopular: [
+      "Received the Abel Prize with Avi Wigderson for foundational work connecting mathematics and computer science.",
+      "Known for major contributions to graph theory, combinatorics, optimization, and algorithms.",
+      "A rare profile that directly connects Olympiad mathematics to theoretical computer science."
+    ],
+    olympiad: [
+      "Won multiple IMO medals for Hungary, including three gold medals.",
+      "The official contestant record shows gold medals across 1964, 1965, and 1966.",
+      "His career shows how combinatorics can become a language for computation."
+    ],
+    trajectory: [
+      "Olympiad phase: built strength in proof, combinatorics, and creative problem solving.",
+      "Research phase: became one of the central figures in graph theory.",
+      "Recognition phase: received the Abel Prize for work influencing both mathematics and computer science."
+    ],
+    growthDrivers: [
+      "Ability to see structure inside networks.",
+      "Deep bridge-building between pure mathematics and algorithms.",
+      "Long-term research taste in problems that later became central to computing."
+    ],
+    impact: [
+      "Helped make graph theory central to modern mathematics and computer science.",
+      "Influenced optimization, algorithms, and network thinking.",
+      "Shows students that school-level graphs can grow into world-changing theory."
+    ],
+    indiaConnect: [
+      "Excellent for IOQM/INMO students who enjoy combinatorics and graph problems.",
+      "Useful bridge for students asking how math connects with coding and algorithms.",
+      "Parent message: discrete mathematics can be a serious route into future technology."
+    ],
+    coachingConnect: "",
+    practice: "Model one real-life situation as a graph: define vertices, edges, and one question to answer.",
+    parentTeacherNote: "Graph problems train students to see relationships, not only numbers.",
+    quality: "High confidence through person-level IMO and Abel Prize sources.",
+    proofLinks: [
+      { label: "IMO contestant record: Laszlo Lovasz", detail: "Official IMO page showing his Hungarian IMO medal record.", url: "https://www.imo-official.org/results/contestant/9852/" },
+      { label: "Abel Prize 2021", detail: "Official Abel Prize source for Lovasz and Wigderson.", url: "https://abelprize.no/abel-prize-laureates/2021" }
+    ],
+    sources: [
+      { label: "IMO contestant record: Laszlo Lovasz", url: "https://www.imo-official.org/results/contestant/9852/", type: "Official IMO results" },
+      { label: "Abel Prize 2021", url: "https://abelprize.no/abel-prize-laureates/2021", type: "Award source" },
+      { label: "Laszlo Lovasz homepage", url: "https://www.cs.elte.hu/~lovasz/", type: "Personal/university source" }
+    ]
+  },
+  {
+    id: "stanislav-smirnov",
+    name: "Stanislav Smirnov",
+    initials: "SS",
+    country: "Russia / Switzerland",
+    region: "Europe",
+    domain: "Mathematics / Probability",
+    role: "Fields Medalist and probability theorist",
+    headline: "An IMO gold medalist who revealed deep order inside randomness.",
+    whyPopular: [
+      "Received the Fields Medal in 2010.",
+      "Known for major work in probability, conformal invariance, and statistical physics-related mathematics.",
+      "A strong example for students who like both geometry and randomness."
+    ],
+    olympiad: [
+      "Won IMO gold as a student from the Soviet Union.",
+      "The exact contestant page is available in the official IMO archive.",
+      "His later work shows that contest mathematics can grow into the mathematics of random systems."
+    ],
+    trajectory: [
+      "Olympiad phase: developed proof strength and geometric intuition.",
+      "Research phase: worked on probability models where randomness has hidden structure.",
+      "Recognition phase: received the Fields Medal for breakthroughs connected to conformal invariance."
+    ],
+    growthDrivers: [
+      "Ability to connect geometry, analysis, and probability.",
+      "Comfort with invisible structure inside messy systems.",
+      "Long focus on problems where intuition and rigor must support each other."
+    ],
+    impact: [
+      "Advanced the mathematical understanding of critical phenomena and random systems.",
+      "Helped connect probability with complex analysis and geometry.",
+      "Shows students that randomness can be studied with exact mathematics."
+    ],
+    indiaConnect: [
+      "Useful for students who enjoy probability beyond school formulas.",
+      "Good for explaining why geometry and probability should not be studied in isolation.",
+      "A motivating profile for students curious about mathematical physics."
+    ],
+    coachingConnect: "",
+    practice: "Take one probability problem and draw the hidden geometry or state diagram behind it.",
+    parentTeacherNote: "When students connect two topics, they are not going off-track; they are building research-style thinking.",
+    quality: "High confidence through person-level IMO, university, and Fields Medal sources.",
+    proofLinks: [
+      { label: "IMO contestant record: Stanislav Smirnov", detail: "Official IMO person-level record for his Olympiad result.", url: "https://www.imo-official.org/results/contestant/11014/" },
+      { label: "IMU Fields Medal profile: Stanislav Smirnov", detail: "Official archived IMU profile for the 2010 Fields Medal.", url: "https://www.mathunion.org/fileadmin/IMU/ICM2010/offline/www.icm2010.in/prize-winners-2010/fields-medal-stanislav-smirnov.html" }
+    ],
+    sources: [
+      { label: "IMO contestant record: Stanislav Smirnov", url: "https://www.imo-official.org/results/contestant/11014/", type: "Official IMO results" },
+      { label: "University of Geneva profile: Stanislav Smirnov", url: "https://www.unige.ch/math/en/section/enseignants-et-chercheurs-2/stanislav-smirnov", type: "University profile" },
+      { label: "IMU Fields Medal profile: Stanislav Smirnov", url: "https://www.mathunion.org/fileadmin/IMU/ICM2010/offline/www.icm2010.in/prize-winners-2010/fields-medal-stanislav-smirnov.html", type: "Award source" }
+    ]
+  },
+  {
+    id: "kiran-kedlaya",
+    name: "Kiran Kedlaya",
+    initials: "KK",
+    country: "United States / India-origin",
+    region: "North America / India Connect",
+    domain: "Mathematics / Number Theory",
+    role: "Mathematician, professor, and problem-solving educator",
+    headline: "An Indian-origin IMO gold medalist who built a serious career in number theory and teaching.",
+    whyPopular: [
+      "Known for research in number theory and arithmetic geometry.",
+      "Highly respected for problem writing, teaching, and mathematical exposition.",
+      "A strong India-facing profile because students can see cultural proximity along with global excellence."
+    ],
+    olympiad: [
+      "Won IMO gold for the United States in 1990 and 1992, plus silver in 1991.",
+      "The official IMO contestant page shows all three appearances.",
+      "His path is useful for showing sustained multi-year excellence."
+    ],
+    trajectory: [
+      "Olympiad phase: built deep number theory and proof-solving strength.",
+      "Academic phase: became a leading mathematician in arithmetic geometry and number theory.",
+      "Education phase: continued influencing students through teaching and problem culture."
+    ],
+    growthDrivers: [
+      "Sustained practice across multiple years.",
+      "Strong exposition: making hard ideas readable.",
+      "Balance of research depth and student-facing teaching."
+    ],
+    impact: [
+      "Contributed to modern number theory and arithmetic geometry.",
+      "Influenced mathematical training through teaching and contest culture.",
+      "Shows that Olympiad excellence can become both research and mentorship."
+    ],
+    indiaConnect: [
+      "Indian-origin story that is easy for Indian students and parents to connect with.",
+      "Excellent for students who love number theory and want a research pathway.",
+      "Useful for teachers who want to emphasize consistency over one-year performance."
+    ],
+    coachingConnect: "",
+    practice: "Take one number theory problem and write the key congruence idea before the full solution.",
+    parentTeacherNote: "Sustained growth over several years is more meaningful than one lucky result.",
+    quality: "High confidence through person-level IMO, UCSD, and personal academic sources.",
+    proofLinks: [
+      { label: "IMO contestant record: Kiran Kedlaya", detail: "Official IMO page showing his medals across 1990, 1991, and 1992.", url: "https://www.imo-official.org/results/contestant/2405/" },
+      { label: "UC San Diego profile: Kiran Kedlaya", detail: "University source for current academic role and research context.", url: "https://math.ucsd.edu/people/profiles/kiran-kedlaya" }
+    ],
+    sources: [
+      { label: "IMO contestant record: Kiran Kedlaya", url: "https://www.imo-official.org/results/contestant/2405/", type: "Official IMO results" },
+      { label: "UC San Diego profile: Kiran Kedlaya", url: "https://math.ucsd.edu/people/profiles/kiran-kedlaya", type: "University profile" },
+      { label: "Kiran Kedlaya homepage", url: "https://kskedlaya.org/", type: "Personal academic source" }
+    ]
+  },
+  {
+    id: "melanie-wood",
+    name: "Melanie Wood",
+    initials: "MW",
+    country: "United States",
+    region: "North America",
+    domain: "Mathematics / Number Theory",
+    role: "Harvard professor, MacArthur Fellow, and number theorist",
+    headline: "A two-time IMO silver medalist who became a leading mathematician and role model for girls in math.",
+    whyPopular: [
+      "Known for research in number theory, arithmetic statistics, and algebraic geometry.",
+      "Named a MacArthur Fellow in 2022.",
+      "Widely recognized as an important role model for young women in mathematical competition and research."
+    ],
+    olympiad: [
+      "Represented the United States at the IMO in 1998 and 1999.",
+      "Won silver medals both years, as shown on the official contestant page.",
+      "Her story is especially useful for encouraging girls preparing for IOQM, INMO, and IMO."
+    ],
+    trajectory: [
+      "Olympiad phase: proved she could compete internationally at the highest school level.",
+      "Research phase: moved into number theory and arithmetic statistics.",
+      "Recognition phase: became a Harvard professor and MacArthur Fellow."
+    ],
+    growthDrivers: [
+      "Strong proof habits combined with creative research questions.",
+      "Ability to connect number theory with probability-style thinking.",
+      "Persistence in a field where role models for girls have historically been fewer."
+    ],
+    impact: [
+      "Advanced arithmetic statistics and related areas of number theory.",
+      "Created a strong public example for girls who want to pursue high-level mathematics.",
+      "Shows that Olympiad confidence can become long-term research courage."
+    ],
+    indiaConnect: [
+      "Very useful for motivating girls in Indian Olympiad classrooms.",
+      "Helps teachers discuss confidence, representation, and serious mathematical ambition.",
+      "Parent message: girls need challenge, not lowered expectations."
+    ],
+    coachingConnect: "",
+    practice: "Ask every student today to present one proof idea aloud, especially those who hesitate to speak.",
+    parentTeacherNote: "Encouragement matters most when a student is capable but unsure whether the room expects them to lead.",
+    quality: "High confidence through person-level IMO, Harvard, and MacArthur sources.",
+    proofLinks: [
+      { label: "IMO contestant record: Melanie Wood", detail: "Official IMO page showing her 1998 and 1999 silver medals.", url: "https://www.imo-official.org/results/contestant/5121/" },
+      { label: "MacArthur Foundation: Melanie Matchett Wood", detail: "Award source for her public research recognition.", url: "https://www.macfound.org/fellows/class-of-2022/melanie-matchett-wood" }
+    ],
+    sources: [
+      { label: "IMO contestant record: Melanie Wood", url: "https://www.imo-official.org/results/contestant/5121/", type: "Official IMO results" },
+      { label: "Harvard page: Melanie Wood", url: "https://people.math.harvard.edu/~mmwood/", type: "University profile" },
+      { label: "MacArthur Foundation: Melanie Matchett Wood", url: "https://www.macfound.org/fellows/class-of-2022/melanie-matchett-wood", type: "Award source" }
+    ]
+  },
+  {
+    id: "ravi-vakil",
+    name: "Ravi Vakil",
+    initials: "RV",
+    country: "Canada / United States",
+    region: "North America / India Connect",
+    domain: "Mathematics / Algebraic Geometry",
+    role: "Stanford professor and algebraic geometer",
+    headline: "An Indian-origin IMO gold medalist whose teaching notes shaped generations of geometry students.",
+    whyPopular: [
+      "Known internationally for work in algebraic geometry.",
+      "Highly respected for writing and teaching, especially through widely used learning notes.",
+      "A strong example of mathematical excellence that also invests in student understanding."
+    ],
+    olympiad: [
+      "Won IMO gold for Canada in 1987 and 1988, after a silver medal in 1986.",
+      "The official contestant page shows the full three-year IMO record.",
+      "His story connects contest strength with long-term teaching and research."
+    ],
+    trajectory: [
+      "Olympiad phase: built repeated high-level international performance.",
+      "Research phase: became a leading algebraic geometer.",
+      "Teaching phase: wrote influential notes that made a difficult field more learnable."
+    ],
+    growthDrivers: [
+      "Deep visual and structural mathematical thinking.",
+      "Generosity in explaining difficult ideas.",
+      "Ability to turn mastery into teaching material."
+    ],
+    impact: [
+      "Influenced modern algebraic geometry research and education.",
+      "Helped many students enter advanced mathematics through carefully written notes.",
+      "Shows that a great mathematician can also be a great teacher."
+    ],
+    indiaConnect: [
+      "Indian-origin profile that can resonate strongly with Indian students and parents.",
+      "Good for explaining that teaching is not a backup path; it can be high-impact intellectual work.",
+      "Useful for students who love geometry and want to see a serious future route."
+    ],
+    coachingConnect: "",
+    practice: "After solving one problem, write a teaching version that a junior student could understand.",
+    parentTeacherNote: "When students explain to others, they often discover the gaps in their own proof.",
+    quality: "High confidence through person-level IMO and Stanford sources.",
+    proofLinks: [
+      { label: "IMO contestant record: Ravi Vakil", detail: "Official IMO page showing his Canada medal record.", url: "https://www.imo-official.org/results/contestant/1576/" },
+      { label: "Stanford profile: Ravi Vakil", detail: "University source for academic role and research context.", url: "https://mathematics.stanford.edu/people/ravi-vakil" }
+    ],
+    sources: [
+      { label: "IMO contestant record: Ravi Vakil", url: "https://www.imo-official.org/results/contestant/1576/", type: "Official IMO results" },
+      { label: "Stanford profile: Ravi Vakil", url: "https://mathematics.stanford.edu/people/ravi-vakil", type: "University profile" },
+      { label: "Ravi Vakil homepage and notes", url: "https://math.stanford.edu/~vakil/", type: "Teaching source" }
+    ]
+  },
+  {
+    id: "jordan-ellenberg",
+    name: "Jordan Ellenberg",
+    initials: "JE",
+    country: "United States",
+    region: "North America",
+    domain: "Mathematics / Public Communication",
+    role: "Mathematician, professor, and popular mathematics author",
+    headline: "An IMO gold medalist who brought mathematical thinking into public conversation.",
+    whyPopular: [
+      "Known for mathematical research and widely read books about how math shapes everyday thinking.",
+      "Connects rigorous mathematics with public explanation, culture, and decision-making.",
+      "A useful example for students who like both problem solving and writing."
+    ],
+    olympiad: [
+      "Represented the United States at the IMO in 1987, 1988, and 1989.",
+      "Won gold in 1987 and 1989, including perfect 42/42 scores in those gold years.",
+      "The person-level official IMO record makes the medal history easy to verify."
+    ],
+    trajectory: [
+      "Olympiad phase: built elite contest strength across multiple years.",
+      "Academic phase: became a research mathematician.",
+      "Public phase: wrote books and essays that made mathematical reasoning accessible to wider audiences."
+    ],
+    growthDrivers: [
+      "Strong ability to translate technical ideas into human language.",
+      "Breadth across research, books, essays, and teaching.",
+      "Curiosity about where mathematics appears outside textbooks."
+    ],
+    impact: [
+      "Helped many non-specialists appreciate mathematical thinking.",
+      "Shows students that math can become writing, teaching, research, and public influence.",
+      "Useful for making Olympiad preparation feel less isolated from real life."
+    ],
+    indiaConnect: [
+      "Good for students who enjoy explaining solutions and writing mathematical essays.",
+      "Teachers can use this profile to reward reasoning in words, not only final answers.",
+      "Parent message: communication can turn mathematical talent into broader influence."
+    ],
+    coachingConnect: "",
+    practice: "Write a 100-word explanation of one solution without using any formula until the final line.",
+    parentTeacherNote: "Students who can explain the idea in words usually understand the proof more deeply.",
+    quality: "High confidence through person-level IMO and author/academic sources.",
+    proofLinks: [
+      { label: "IMO contestant record: Jordan Ellenberg", detail: "Official IMO page showing his 1987-1989 medal record.", url: "https://www.imo-official.org/results/contestant/1590/" },
+      { label: "Jordan Ellenberg official site", detail: "Public source for books and public mathematics work.", url: "https://www.jordanellenberg.com/" }
+    ],
+    sources: [
+      { label: "IMO contestant record: Jordan Ellenberg", url: "https://www.imo-official.org/results/contestant/1590/", type: "Official IMO results" },
+      { label: "Jordan Ellenberg official site", url: "https://www.jordanellenberg.com/", type: "Author source" },
+      { label: "University of Wisconsin homepage: Jordan Ellenberg", url: "https://people.math.wisc.edu/~ellenberg/", type: "University profile" }
+    ]
+  },
+  {
+    id: "kevin-buzzard",
+    name: "Kevin Buzzard",
+    initials: "KB",
+    country: "United Kingdom",
+    region: "Europe",
+    domain: "Formal Proof / Number Theory",
+    role: "Imperial mathematician and formal proof advocate",
+    headline: "An IMO perfect scorer helping connect mathematics with proof assistants.",
+    whyPopular: [
+      "Known for number theory and for championing formal proof through the Xena Project.",
+      "Connects human proof-writing with computer-verified mathematics.",
+      "Useful in the AI era because proof assistants are becoming important for mathematical reasoning."
+    ],
+    olympiad: [
+      "Won IMO gold for the United Kingdom in 1987 with a perfect 42/42 score.",
+      "Also won a bronze medal in 1986.",
+      "The official contestant page gives the exact Olympiad record."
+    ],
+    trajectory: [
+      "Olympiad phase: developed high-precision proof skill.",
+      "Research phase: worked in number theory.",
+      "Formalization phase: pushed mathematicians to use proof assistants for checking and building mathematics."
+    ],
+    growthDrivers: [
+      "Strong insistence on exact definitions.",
+      "Willingness to learn new technical tools after becoming established.",
+      "Belief that proof quality can be improved with computation."
+    ],
+    impact: [
+      "Helped make formal proof more visible in mainstream mathematics.",
+      "Shows students that proof-writing is becoming a technology skill, not only an exam skill.",
+      "Connects Olympiad rigor with AI, Lean, and future mathematical software."
+    ],
+    indiaConnect: [
+      "Excellent for students preparing for INMO who also like coding.",
+      "Useful for teachers explaining why every quantifier and condition matters.",
+      "Good bridge between Olympiad proof culture and future AI-assisted mathematics."
+    ],
+    coachingConnect: "",
+    practice: "Take one theorem and underline every assumption; then check exactly where each assumption is used.",
+    parentTeacherNote: "Precision is not pedantry in mathematics; it is the foundation of trustworthy reasoning.",
+    quality: "High confidence through person-level IMO, Imperial, and Xena Project sources.",
+    proofLinks: [
+      { label: "IMO contestant record: Kevin Buzzard", detail: "Official IMO page showing 1987 gold with 42/42 and 1986 bronze.", url: "https://www.imo-official.org/results/contestant/10962/" },
+      { label: "Imperial profile: Kevin Buzzard", detail: "University source for his academic role and research context.", url: "https://profiles.imperial.ac.uk/k.buzzard" }
+    ],
+    sources: [
+      { label: "IMO contestant record: Kevin Buzzard", url: "https://www.imo-official.org/results/contestant/10962/", type: "Official IMO results" },
+      { label: "Imperial profile: Kevin Buzzard", url: "https://profiles.imperial.ac.uk/k.buzzard", type: "University profile" },
+      { label: "The Xena Project", url: "https://xenaproject.wordpress.com/", type: "Formal proof project" }
+    ]
+  },
+  {
+    id: "nicusor-dan",
+    name: "Nicusor Dan",
+    initials: "ND",
+    country: "Romania",
+    region: "Europe",
+    domain: "Mathematics / Public Leadership",
+    role: "Mathematician and Romanian public leader",
+    headline: "A double IMO perfect-score gold medalist who later entered public leadership.",
+    whyPopular: [
+      "Won two IMO gold medals for Romania, both with perfect scores.",
+      "Studied and worked in mathematics before moving into civic and political life.",
+      "Useful because it shows mathematical discipline can shape leadership, not only research careers."
+    ],
+    olympiad: [
+      "Won IMO gold for Romania in 1987 and 1988.",
+      "The official contestant record shows perfect 42/42 scores in both years.",
+      "This makes him a very strong example for consistency and accuracy."
+    ],
+    trajectory: [
+      "Olympiad phase: achieved repeated perfect international performance.",
+      "Mathematics phase: pursued advanced mathematical study and research.",
+      "Public phase: moved into civic work and national political leadership in Romania."
+    ],
+    growthDrivers: [
+      "Accuracy under pressure.",
+      "Ability to think structurally about complex systems.",
+      "Long-term commitment to public problems beyond personal achievement."
+    ],
+    impact: [
+      "Shows that mathematical training can support public decision-making.",
+      "Creates a rare bridge from Olympiad mathematics to civic leadership.",
+      "Useful for students who want impact beyond a single technical field."
+    ],
+    indiaConnect: [
+      "Good for students who are strong in math but unsure whether they must choose only engineering or research.",
+      "Teachers can use this to show that logical training is valuable in public life too.",
+      "Parent message: Olympiad preparation builds disciplined thinking that travels across careers."
+    ],
+    coachingConnect: "",
+    practice: "Pick one real-world issue and write the variables, constraints, and trade-offs like a math problem.",
+    parentTeacherNote: "Logical thinking is portable; a student may use it in research, technology, teaching, policy, or leadership.",
+    quality: "High confidence for IMO record; public leadership context is sourced without overloading the student message with daily political details.",
+    proofLinks: [
+      { label: "IMO contestant record: Nicusor Dan", detail: "Official IMO page showing 1987 and 1988 perfect-score gold medals.", url: "https://www.imo-official.org/results/contestant/1571/" },
+      { label: "AP public leadership profile", detail: "Public source for his Romanian leadership context.", url: "https://apnews.com/article/romania-president-nicusor-dan-europe-economy-inauguration-f995ec7453251ef559064037d7e355b5" }
+    ],
+    sources: [
+      { label: "IMO contestant record: Nicusor Dan", url: "https://www.imo-official.org/results/contestant/1571/", type: "Official IMO results" },
+      { label: "Nicusor Dan official site", url: "https://nicusordan.ro/", type: "Official personal site" },
+      { label: "AP: Romanian public leadership context", url: "https://apnews.com/article/romania-president-nicusor-dan-europe-economy-inauguration-f995ec7453251ef559064037d7e355b5", type: "News source" }
+    ]
   }
 ];
