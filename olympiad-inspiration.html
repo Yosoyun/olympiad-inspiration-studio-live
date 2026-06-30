@@ -6,6 +6,7 @@
   <title>The Olympiad Almanac</title>
   <meta name="description" content="A premium daily Olympiad inspiration almanac with verified WhatsApp-ready profiles for Indian students, parents, and teachers.">
   <script src="data/olympiad-inspiration-profiles-expanded-20260630.js"></script>
+  <script src="data/imo-medalist-directory-20260630.js"></script>
   <style>
     :root {
       --serif: Georgia, "Times New Roman", Times, serif;
@@ -175,7 +176,9 @@
     .sidebar,
     .stage,
     .detail-panel,
-    .whatsapp-panel {
+    .whatsapp-panel,
+    .archive-panel {
+      min-width: 0;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: rgba(255, 253, 247, .96);
@@ -351,6 +354,13 @@
       grid-template-columns: minmax(0, 1fr) minmax(230px, 320px);
       gap: 22px;
       padding: clamp(20px, 3vw, 34px);
+    }
+
+    .stage-inner > *,
+    .content-grid > *,
+    .deep-grid > *,
+    .archive-panel > * {
+      min-width: 0;
     }
 
     .date-row {
@@ -667,6 +677,142 @@
       line-height: 1.48;
     }
 
+    .archive-panel {
+      padding: clamp(16px, 2.4vw, 24px);
+    }
+
+    .archive-head {
+      align-items: flex-start;
+    }
+
+    .archive-head p,
+    .archive-note {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .archive-stats {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f7eddb;
+    }
+
+    .archive-controls {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) 170px 220px auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 12px;
+    }
+
+    .archive-controls button {
+      min-height: 40px;
+      padding: 0 12px;
+    }
+
+    .archive-table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fffdf7;
+    }
+
+    .archive-table {
+      width: 100%;
+      min-width: 860px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .archive-table th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      padding: 10px;
+      color: var(--muted);
+      background: #fbf2e1;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .archive-table td {
+      padding: 11px 10px;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-2);
+      line-height: 1.42;
+      vertical-align: top;
+    }
+
+    .archive-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .medalist-name {
+      display: block;
+      color: var(--ink);
+      font-family: var(--serif);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .medalist-sub {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .award-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      border-radius: 999px;
+      padding: 0 9px;
+      color: #201704;
+      background: #f4d793;
+      border: 1px solid rgba(156, 111, 37, .42);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .award-silver { background: #eceef1; }
+    .award-bronze { background: #e8c6a3; }
+    .award-hm { background: #dceadc; color: #21351f; }
+
+    .archive-proof {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 10px;
+      background: #fffaf0;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .archive-open {
+      margin-top: 7px;
+      min-height: 30px;
+      padding: 0 10px;
+      font-size: 12px;
+    }
+
     .whatsapp-panel {
       position: sticky;
       top: 88px;
@@ -765,6 +911,14 @@
         grid-template-columns: 1fr;
       }
 
+      .archive-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .archive-controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       .whatsapp-panel {
         position: static;
       }
@@ -812,6 +966,11 @@
       }
 
       .deep-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .archive-stats,
+      .archive-controls {
         grid-template-columns: 1fr;
       }
 
@@ -961,6 +1120,47 @@
             </div>
           </aside>
         </section>
+
+        <section class="archive-panel" id="medalistArchive">
+          <div class="section-head archive-head">
+            <div>
+              <h3>Verified IMO Medalist Directory</h3>
+              <p id="archiveCoverage"></p>
+            </div>
+            <span class="pill" id="archiveCount"></span>
+          </div>
+          <div class="archive-stats" id="archiveStats"></div>
+          <div class="archive-controls">
+            <div class="field">
+              <label for="archiveSearchInput">Archive Search</label>
+              <input id="archiveSearchInput" type="search" placeholder="Name, country, year, award">
+            </div>
+            <div class="field">
+              <label for="archiveAwardFilter">Prize</label>
+              <select id="archiveAwardFilter"></select>
+            </div>
+            <div class="field">
+              <label for="archiveCountryFilter">Country</label>
+              <select id="archiveCountryFilter"></select>
+            </div>
+            <button id="downloadArchiveBtn" type="button">Download Archive</button>
+          </div>
+          <div class="archive-table-wrap">
+            <table class="archive-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Best Prize</th>
+                  <th>Verified Record</th>
+                  <th>Country / Years</th>
+                  <th>Proof</th>
+                </tr>
+              </thead>
+              <tbody id="archiveBody"></tbody>
+            </table>
+          </div>
+          <p class="archive-note" id="archiveNote"></p>
+        </section>
       </section>
     </main>
   </div>
@@ -969,11 +1169,32 @@
 
   <script>
     const profiles = Array.isArray(window.OLYMPIAD_PROFILES) ? window.OLYMPIAD_PROFILES : [];
+    const medalistArchive = window.IMO_MEDALIST_DIRECTORY || {};
+    const medalists = Array.isArray(medalistArchive.medalists) ? medalistArchive.medalists : [];
+    const AWARD_LABELS = {
+      gold: "Gold",
+      silver: "Silver",
+      bronze: "Bronze",
+      hm: "Hon. Mention"
+    };
+
+    function normalizeText(value) {
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+    }
+
     const state = {
       activeId: profiles[getTodayIndex()]?.id || profiles[0]?.id || "",
       query: "",
       domain: "all",
-      region: "all"
+      region: "all",
+      archiveQuery: "",
+      archiveAward: "all",
+      archiveCountry: "all"
     };
 
     const els = {
@@ -1012,6 +1233,15 @@
       qualityPill: document.getElementById("qualityPill"),
       qualityNote: document.getElementById("qualityNote"),
       messageText: document.getElementById("messageText"),
+      archiveCoverage: document.getElementById("archiveCoverage"),
+      archiveCount: document.getElementById("archiveCount"),
+      archiveStats: document.getElementById("archiveStats"),
+      archiveSearchInput: document.getElementById("archiveSearchInput"),
+      archiveAwardFilter: document.getElementById("archiveAwardFilter"),
+      archiveCountryFilter: document.getElementById("archiveCountryFilter"),
+      archiveBody: document.getElementById("archiveBody"),
+      archiveNote: document.getElementById("archiveNote"),
+      downloadArchiveBtn: document.getElementById("downloadArchiveBtn"),
       toast: document.getElementById("toast")
     };
 
@@ -1154,14 +1384,13 @@
       const indian = profiles.filter((profile) => profile.region.includes("India")).length;
       const sources = profiles.reduce((count, profile) => count + (profile.sources?.length || 0), 0);
       const proofReceipts = profiles.reduce((count, profile) => count + getProofLinks(profile).length, 0);
-      const allen = profiles.filter((profile) => /verified public allen|public allen-linked/i.test(profile.coachingConnect || "")).length;
       els.stats.innerHTML = "";
       [
         [profiles.length, "profiles"],
         [sources, "source links"],
         [proofReceipts, "proof receipts"],
         [indian, "India-linked"],
-        [allen, "ALLEN proof"],
+        [medalists.length ? medalists.length.toLocaleString("en-IN") : 0, "IMO archive"],
         [getFilteredProfiles().length, "showing"]
       ].forEach(([value, label]) => {
         const stat = document.createElement("div");
@@ -1208,6 +1437,151 @@
         empty.textContent = "No profiles match this filter.";
         els.profileList.append(empty);
       }
+    }
+
+    function formatNumber(value) {
+      return Number(value || 0).toLocaleString("en-IN");
+    }
+
+    function awardClass(award) {
+      return `award-badge award-${award || "hm"}`;
+    }
+
+    function awardSummary(person) {
+      const parts = ["gold", "silver", "bronze", "hm"]
+        .filter((award) => person.awards?.[award])
+        .map((award) => `${AWARD_LABELS[award]} ${person.awards[award]}`);
+      if (person.perfectScores) parts.push(`Perfect ${person.perfectScores}`);
+      return parts.join(" | ");
+    }
+
+    function profileForMedalist(person) {
+      const officialNeedle = `/results/contestant/${person.id}/`;
+      const byOfficialLink = profiles.find((profile) => {
+        const links = [
+          ...(profile.proofLinks || []).map((proof) => proof.url),
+          ...(profile.sources || []).map((source) => source.url)
+        ];
+        return links.some((url) => url.includes(officialNeedle));
+      });
+      if (byOfficialLink) return byOfficialLink;
+
+      const medalistName = normalizeText(person.name);
+      return profiles.find((profile) => {
+        const profileName = normalizeText(profile.name);
+        return medalistName.includes(profileName) || profileName.includes(medalistName);
+      });
+    }
+
+    function medalistSearchText(person) {
+      return normalizeText([
+        person.name,
+        person.bestAward,
+        ...(person.countries || []),
+        ...(person.countryCodes || []),
+        ...(person.years || []),
+        awardSummary(person)
+      ].join(" "));
+    }
+
+    function getFilteredMedalists() {
+      const query = normalizeText(state.archiveQuery);
+      return medalists.filter((person) => {
+        const awardMatch = state.archiveAward === "all" || person.records.some((record) => record.award === state.archiveAward);
+        const countryMatch = state.archiveCountry === "all" || person.countries.includes(state.archiveCountry);
+        return awardMatch && countryMatch && (!query || medalistSearchText(person).includes(query));
+      });
+    }
+
+    function renderArchiveStats() {
+      const totals = medalistArchive.totals || {};
+      els.archiveStats.innerHTML = "";
+      [
+        [medalistArchive.coverage || "--", "official years"],
+        [formatNumber(totals.people), "verified people"],
+        [formatNumber(totals.gold), "gold records"],
+        [formatNumber(totals.silver), "silver records"],
+        [formatNumber(totals.bronze), "bronze records"],
+        [formatNumber(totals.hm), "hon. mentions"]
+      ].forEach(([value, label]) => {
+        const stat = document.createElement("div");
+        stat.className = "stat";
+        stat.innerHTML = `<strong>${value}</strong><span>${label}</span>`;
+        els.archiveStats.append(stat);
+      });
+    }
+
+    function renderMedalistArchive() {
+      if (!medalists.length) {
+        els.archiveCoverage.textContent = "Official IMO archive data is not loaded.";
+        els.archiveCount.textContent = "0 records";
+        els.archiveStats.innerHTML = "";
+        els.archiveBody.innerHTML = "";
+        els.archiveNote.textContent = "";
+        return;
+      }
+
+      const filtered = getFilteredMedalists();
+      const limit = 300;
+      const shown = filtered.slice(0, limit);
+      els.archiveCoverage.textContent = `Source: ${medalistArchive.sourceName}. Coverage ${medalistArchive.coverage}; ${formatNumber(medalistArchive.countryPagesChecked)} official country pages checked.`;
+      els.archiveCount.textContent = `${formatNumber(filtered.length)} matches`;
+      renderArchiveStats();
+      els.archiveBody.innerHTML = "";
+
+      shown.forEach((person) => {
+        const profile = profileForMedalist(person);
+        const row = document.createElement("tr");
+        const nameCell = document.createElement("td");
+        const awardCell = document.createElement("td");
+        const recordCell = document.createElement("td");
+        const countryCell = document.createElement("td");
+        const proofCell = document.createElement("td");
+        const name = document.createElement("span");
+        const sub = document.createElement("span");
+        const badge = document.createElement("span");
+        const proof = document.createElement("a");
+
+        name.className = "medalist-name";
+        name.textContent = person.name;
+        sub.className = "medalist-sub";
+        sub.textContent = profile ? "Deep story available in Almanac" : `IMO contestant ID ${person.id}`;
+        nameCell.append(name, sub);
+
+        badge.className = awardClass(person.bestAward);
+        badge.textContent = AWARD_LABELS[person.bestAward] || person.bestAward;
+        awardCell.append(badge);
+
+        recordCell.textContent = awardSummary(person);
+        countryCell.textContent = `${person.countries.join(" / ")} | ${person.years.join(", ")}`;
+
+        proof.className = "archive-proof";
+        proof.href = person.officialUrl;
+        proof.target = "_blank";
+        proof.rel = "noreferrer";
+        proof.textContent = "Official IMO";
+        proofCell.append(proof);
+
+        if (profile) {
+          const open = document.createElement("button");
+          open.type = "button";
+          open.className = "archive-open";
+          open.textContent = "Open story";
+          open.addEventListener("click", () => {
+            state.activeId = profile.id;
+            render();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          });
+          proofCell.append(open);
+        }
+
+        row.append(nameCell, awardCell, recordCell, countryCell, proofCell);
+        els.archiveBody.append(row);
+      });
+
+      els.archiveNote.textContent = filtered.length > limit
+        ? `Showing first ${formatNumber(limit)} of ${formatNumber(filtered.length)} matches. Search or filter for a specific student-inspiration example. ${medalistArchive.note}`
+        : medalistArchive.note;
     }
 
     function renderProfile() {
@@ -1399,10 +1773,30 @@
       buildOptions(els.regionFilter, regions, "regions");
     }
 
+    function initArchiveFilters() {
+      els.archiveAwardFilter.innerHTML = "";
+      [
+        ["all", "All prizes"],
+        ["gold", "Gold"],
+        ["silver", "Silver"],
+        ["bronze", "Bronze"],
+        ["hm", "Honorable mention"]
+      ].forEach(([value, label]) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        els.archiveAwardFilter.append(option);
+      });
+
+      const countries = [...new Set(medalists.flatMap((person) => person.countries || []))].sort();
+      buildOptions(els.archiveCountryFilter, countries, "countries");
+    }
+
     function render() {
       renderStats();
       renderProfileList();
       renderProfile();
+      renderMedalistArchive();
     }
 
     els.searchInput.addEventListener("input", (event) => {
@@ -1429,6 +1823,21 @@
       render();
     });
 
+    els.archiveSearchInput.addEventListener("input", (event) => {
+      state.archiveQuery = event.target.value;
+      renderMedalistArchive();
+    });
+
+    els.archiveAwardFilter.addEventListener("change", (event) => {
+      state.archiveAward = event.target.value;
+      renderMedalistArchive();
+    });
+
+    els.archiveCountryFilter.addEventListener("change", (event) => {
+      state.archiveCountry = event.target.value;
+      renderMedalistArchive();
+    });
+
     els.prevBtn.addEventListener("click", () => move(-1));
     els.nextBtn.addEventListener("click", () => move(1));
     els.todayBtn.addEventListener("click", () => {
@@ -1445,8 +1854,12 @@
     els.downloadAllBtn.addEventListener("click", () => {
       download("olympiad-inspiration-profiles.json", JSON.stringify(profiles, null, 2));
     });
+    els.downloadArchiveBtn.addEventListener("click", () => {
+      download("imo-medalist-directory-20260630.json", JSON.stringify(medalistArchive, null, 2));
+    });
 
     initFilters();
+    initArchiveFilters();
     render();
   </script>
 </body>
