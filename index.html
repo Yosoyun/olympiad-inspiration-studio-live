@@ -1249,12 +1249,83 @@
         #211b14;
     }
 
+    .message-spark {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding: 18px;
+      color: #fff9ec;
+      background:
+        linear-gradient(135deg, rgba(244, 215, 147, .18), transparent 38%),
+        linear-gradient(180deg, rgba(255, 249, 236, .08), rgba(255, 249, 236, .03));
+      border-bottom: 1px solid rgba(244, 215, 147, .24);
+      border-radius: 8px 8px 0 0;
+    }
+
+    .spark-kicker {
+      color: #f4d793;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .spark-title {
+      margin: 0;
+      color: #fff9ec;
+      font-family: var(--serif);
+      font-size: 26px;
+      line-height: 1.12;
+      font-weight: 700;
+    }
+
+    .spark-copy {
+      margin: 0;
+      max-width: 58ch;
+      color: rgba(255, 249, 236, .82);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .spark-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .spark-metric {
+      min-height: 58px;
+      display: grid;
+      align-content: center;
+      gap: 3px;
+      padding: 10px;
+      border: 1px solid rgba(244, 215, 147, .22);
+      border-radius: 8px;
+      background: rgba(255, 249, 236, .06);
+    }
+
+    .spark-metric strong {
+      color: #f4d793;
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .spark-metric span {
+      color: rgba(255, 249, 236, .76);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
     textarea {
       min-height: 720px;
       border-color: rgba(244, 215, 147, .3);
       background: #fffdf7;
       box-shadow: inset 0 0 0 1px rgba(23, 19, 13, .03), 0 18px 42px rgba(0, 0, 0, .18);
-      line-height: 1.76;
+      font-family: "Avenir Next", "Segoe UI", var(--sans);
+      font-size: 15px;
+      line-height: 1.82;
     }
 
     .archive-panel {
@@ -1448,6 +1519,14 @@
         width: 56px;
         height: 56px;
       }
+
+      .spark-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .spark-title {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
@@ -1583,6 +1662,25 @@
               </div>
             </div>
             <div class="message-frame">
+              <div class="message-spark">
+                <span class="spark-kicker" id="sparkKicker"></span>
+                <h3 class="spark-title" id="sparkTitle"></h3>
+                <p class="spark-copy" id="sparkCopy"></p>
+                <div class="spark-metrics" aria-label="Message quality markers">
+                  <div class="spark-metric">
+                    <strong id="sparkLens"></strong>
+                    <span>Student lens</span>
+                  </div>
+                  <div class="spark-metric">
+                    <strong id="sparkProofs"></strong>
+                    <span>Proof links</span>
+                  </div>
+                  <div class="spark-metric">
+                    <strong id="sparkSources"></strong>
+                    <span>Sources</span>
+                  </div>
+                </div>
+              </div>
               <textarea id="messageText" readonly spellcheck="false"></textarea>
             </div>
           </aside>
@@ -1701,6 +1799,12 @@
       sourceList: document.getElementById("sourceList"),
       qualityPill: document.getElementById("qualityPill"),
       qualityNote: document.getElementById("qualityNote"),
+      sparkKicker: document.getElementById("sparkKicker"),
+      sparkTitle: document.getElementById("sparkTitle"),
+      sparkCopy: document.getElementById("sparkCopy"),
+      sparkLens: document.getElementById("sparkLens"),
+      sparkProofs: document.getElementById("sparkProofs"),
+      sparkSources: document.getElementById("sparkSources"),
       messageText: document.getElementById("messageText"),
       archiveCoverage: document.getElementById("archiveCoverage"),
       archiveCount: document.getElementById("archiveCount"),
@@ -2112,6 +2216,12 @@
         els.sourceList.append(item);
       });
       els.qualityNote.textContent = profile.quality;
+      els.sparkKicker.textContent = "Teacher-ready story spark";
+      els.sparkTitle.textContent = `${firstName(profile)}: from rough work to real-world impact`;
+      els.sparkCopy.textContent = sparkCopy(profile);
+      els.sparkLens.textContent = thinkingLens(profile);
+      els.sparkProofs.textContent = getProofLinks(profile).length;
+      els.sparkSources.textContent = profile.sources.length;
       els.messageText.value = formatWhatsApp(profile);
     }
 
@@ -2148,9 +2258,9 @@
       const text = `${profile.domain} ${profile.role}`.toLowerCase();
       if (text.includes("ai") || text.includes("software") || text.includes("data")) {
         return [
-          "Can solving hard coding problems really connect to AI?",
-          "Why should I care about edge cases, testing, and clean logic?",
-          "Can my contest preparation become useful outside exams?"
+          "Can a hard problem solved in a notebook become useful in AI and technology?",
+          "Why should I care about proof, models, edge cases, testing, and clean logic?",
+          "Can my Olympiad preparation become real-world building power?"
         ];
       }
       if (text.includes("blockchain") || text.includes("crypto")) {
@@ -2184,27 +2294,68 @@
       ];
     }
 
+    function thinkingLens(profile) {
+      const text = `${profile.domain} ${profile.role}`.toLowerCase();
+      if (text.includes("ai") || text.includes("software") || text.includes("data")) return "Reliability";
+      if (text.includes("blockchain") || text.includes("crypto")) return "Proof";
+      if (text.includes("physics") || text.includes("astronomy")) return "Models";
+      if (text.includes("mathematics") || text.includes("math")) return "Depth";
+      return "Courage";
+    }
+
+    function teacherOpening(profile) {
+      const lens = thinkingLens(profile);
+      const text = `${profile.domain} ${profile.role}`.toLowerCase();
+      if (lens === "Reliability") {
+        return `Today we are not reading about fame in technology. We are studying how a student trained on hard problems learns to build systems where logic, edge cases, and patience actually matter.`;
+      }
+      if (lens === "Proof") {
+        return `Today we are not reading about hype. We are studying how proof, rules, and careful reasoning can become a student's protection against confusion.`;
+      }
+      if (lens === "Models") {
+        return `Today we are not reading about formulas only. We are studying how imagination becomes powerful when it is disciplined by accuracy.`;
+      }
+      if (text.includes("education") || text.includes("teacher")) {
+        return `Today we are not reading only about achievement. We are studying how deep learning becomes useful when it is shared with other students.`;
+      }
+      return `Today we are not reading about a medal as a trophy. We are studying the hidden habit behind it: staying with a difficult idea until it becomes clear.`;
+    }
+
+    function sparkCopy(profile) {
+      return `Use this profile to show students how ${firstName(profile)}'s Olympiad habits connect to ${profile.domain}, public work, and one concrete action they can try today.`;
+    }
+
     function formatWhatsApp(profile) {
       const questions = studentQuestions(profile);
       const visual = visualActivity(profile);
       const openingInsight = profile.indiaConnect?.[0] || profile.headline;
+      const lens = thinkingLens(profile);
+      const opening = teacherOpening(profile);
       return [
         "📜 *THE OLYMPIAD ALMANAC*",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "_One true story. One thinking habit. One action for today._",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         `📅 *${formatIndiaDate()}*`,
+        "🇮🇳 *For serious IOQM / INMO / IMO / IOI aspirants*",
+        "",
+        "🎙️ *TEACHER OPENING LINE*",
+        `_${opening}_`,
+        "",
+        `🧠 *Today's thinking lens:* ${lens} under pressure`,
         "",
         "🌟 *INSPIRATION PROFILE OF THE DAY*",
         "",
         `👤 *${profile.name.toUpperCase()}*`,
         `_${profile.headline}_`,
         "",
+        "🪪 *PROFILE SNAPSHOT*",
         `🌐 *Field:* ${profile.domain}`,
         `📍 *Country/Region:* ${profile.country}`,
         `🧭 *Known for:* ${profile.role}`,
         "🎓 *Best for:* IOQM / INMO / IMO / IOI classrooms",
         "",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         "🌍 *WHY THIS NAME MATTERS FOR STUDENTS*",
         "",
@@ -2232,7 +2383,7 @@
         "• the ability to explain ideas clearly, and",
         "• the confidence to build something meaningful later.",
         "",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         "🏆 *OLYMPIAD FOUNDATION*",
         "",
@@ -2242,7 +2393,7 @@
         "",
         "A medal is visible. The real transformation is invisible: the student learns to think longer, fail better, and return to the problem with a sharper mind.",
         "",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         "🕰️ *THE JOURNEY - HOW THE GROWTH HAPPENED*",
         "",
@@ -2252,7 +2403,7 @@
         "",
         "Olympiad success did not remain only as a certificate. It became a way of thinking, working, building, researching, teaching, or leading.",
         "",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         "🚀 *PUBLIC ACHIEVEMENT / REAL-WORLD IMPACT*",
         "",
@@ -2262,7 +2413,7 @@
         "",
         "The same habits used in a hard Olympiad problem can later appear in research papers, AI systems, secure technology, public writing, startups, or scientific discovery.",
         "",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         "🧠 *WHAT MADE THE GROWTH FAST?*",
         "",
@@ -2272,7 +2423,7 @@
         "",
         "Do not practise only to finish questions. Practise to become the kind of thinker who can handle unknown problems.",
         "",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         "🇮🇳 *CONNECT THE DOTS FOR INDIAN STUDENTS*",
         "",
@@ -2283,7 +2434,7 @@
         "",
         "Marks are short-term feedback. Thinking quality is long-term capital.",
         "",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         "🎨 *VISUAL CLASSROOM ACTIVITY*",
         "",
@@ -2291,7 +2442,7 @@
         "",
         "This turns the story from a post into a discussion. Students should see the journey, not just read the name.",
         "",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         "🎯 *TODAY'S 20-MINUTE ACTION*",
         "",
@@ -2299,7 +2450,7 @@
         "",
         "Do this slowly. The goal is not speed today. The goal is better thinking.",
         "",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         "👨‍👩‍👧 *FOR PARENTS AND TEACHERS*",
         "",
@@ -2309,19 +2460,19 @@
         "",
         "These are the habits that create serious students.",
         "",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         "🔐 *AUTHENTICITY / OFFICIAL PROOF*",
         "",
         proofLines(profile),
         "",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         "🔎 *ADDITIONAL SOURCES*",
         "",
         sourceLines(profile),
         "",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━",
         "",
         "✅ *Main message for students:*",
         "",
