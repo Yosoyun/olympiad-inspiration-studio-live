@@ -200,6 +200,15 @@
       background: linear-gradient(180deg, #fffdf7, #fbf4e8);
     }
 
+    .filter-toggle {
+      display: none;
+      width: calc(100% - 24px);
+      margin: 12px;
+      color: #fff9ec;
+      border-color: var(--ink);
+      background: var(--ink);
+    }
+
     .field {
       display: grid;
       gap: 6px;
@@ -433,6 +442,39 @@
       border: 1px solid var(--line);
       font-size: 12px;
       font-weight: 900;
+    }
+
+    .review-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .review-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border: 1px solid rgba(56, 111, 102, .24);
+      border-radius: 8px;
+      padding: 0 10px;
+      color: #163f38;
+      background: #e4f0ec;
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .review-badge.warning {
+      color: #5d3f08;
+      border-color: rgba(156, 111, 37, .34);
+      background: #fff4d6;
+    }
+
+    .review-badge.needs {
+      color: #6c2733;
+      border-color: rgba(143, 63, 76, .34);
+      background: #f3e1e3;
     }
 
     .stage-card {
@@ -1342,7 +1384,7 @@
 
     .audience-switcher {
       display: inline-grid;
-      grid-template-columns: repeat(2, minmax(88px, 1fr));
+      grid-template-columns: repeat(2, minmax(92px, 1fr));
       gap: 4px;
       min-height: 38px;
       padding: 4px;
@@ -1366,6 +1408,36 @@
     .audience-tab.active {
       color: #17130d;
       background: #f4d793;
+    }
+
+    .teacher-toolkit {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(244, 215, 147, .2);
+    }
+
+    .teacher-toolkit-title {
+      color: #f4d793;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .teacher-toolkit-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .teacher-toolkit-actions button {
+      min-height: 34px;
+      color: #fff9ec;
+      border-color: rgba(244, 215, 147, .28);
+      background: rgba(255, 249, 236, .08);
+      font-size: 12px;
     }
 
     .message-actions button {
@@ -1738,7 +1810,12 @@
         grid-template-columns: 1fr;
       }
 
+      .workspace {
+        order: 1;
+      }
+
       .sidebar {
+        order: 2;
         position: static;
       }
 
@@ -1752,6 +1829,44 @@
     }
 
     @media (max-width: 680px) {
+      .topbar {
+        gap: 10px;
+        padding: 10px 16px 12px;
+      }
+
+      .brandmark {
+        width: 38px;
+        height: 38px;
+      }
+
+      .brand h1 {
+        font-size: 20px;
+      }
+
+      .brand p {
+        font-size: 12px;
+      }
+
+      .view-switcher,
+      .top-actions {
+        width: 100%;
+      }
+
+      .mode-tab,
+      .top-actions button {
+        min-height: 36px;
+      }
+
+      .filter-toggle {
+        display: block;
+      }
+
+      .sidebar.filters-collapsed .filters,
+      .sidebar.filters-collapsed .stat-grid,
+      .sidebar.filters-collapsed .person-list {
+        display: none;
+      }
+
       .top-actions,
       .message-actions {
         width: 100%;
@@ -1799,6 +1914,10 @@
         grid-template-columns: 1fr;
       }
 
+      .teacher-toolkit-actions {
+        grid-template-columns: 1fr;
+      }
+
       .spark-title {
         font-size: 22px;
       }
@@ -1828,18 +1947,19 @@
     </header>
 
     <main class="main">
-      <aside class="sidebar" aria-label="Profile library">
+      <aside class="sidebar" id="profileSidebar" aria-label="Profile library">
+        <button class="filter-toggle" id="filterToggleBtn" type="button">Search and filters</button>
         <div class="filters">
           <div class="field">
             <label for="searchInput">Search</label>
             <input id="searchInput" type="search" placeholder="Name, domain, country, keyword">
           </div>
           <div class="field">
-            <label for="domainFilter">Domain</label>
+            <label for="domainFilter">Track</label>
             <select id="domainFilter"></select>
           </div>
           <div class="field">
-            <label for="regionFilter">Region</label>
+            <label for="regionFilter">Review</label>
             <select id="regionFilter"></select>
           </div>
         </div>
@@ -1864,6 +1984,7 @@
               </div>
               <p class="headline" id="profileHeadline"></p>
               <div class="chips" id="chips"></div>
+              <div class="review-badges" id="reviewBadges"></div>
             </div>
             <aside class="stage-card">
               <h3>Daily Classroom Angle</h3>
@@ -1965,11 +2086,13 @@
                 <p class="message-subtitle" id="audienceHint"></p>
               </div>
               <div class="message-actions">
-                <div class="audience-switcher" role="tablist" aria-label="Message audience">
-                  <button class="audience-tab active" data-audience-button="student" type="button" role="tab" aria-selected="true">Student</button>
-                  <button class="audience-tab" data-audience-button="teacher" type="button" role="tab" aria-selected="false">Teacher</button>
+                <div class="audience-switcher" role="tablist" aria-label="Message mode">
+                  <button class="audience-tab" data-message-mode-button="royal-short" type="button" role="tab" aria-selected="false">Royal Short</button>
+                  <button class="audience-tab active" data-message-mode-button="student-deep" type="button" role="tab" aria-selected="true">Student Deep</button>
+                  <button class="audience-tab" data-message-mode-button="teacher-lab" type="button" role="tab" aria-selected="false">Teacher Lab</button>
+                  <button class="audience-tab" data-message-mode-button="parent-note" type="button" role="tab" aria-selected="false">Parent Note</button>
                 </div>
-                <button id="copyMessageBtn" type="button">Copy Student</button>
+                <button id="copyMessageBtn" type="button">Copy Student Deep</button>
                 <button id="copySourcesBtn" type="button">Official Links</button>
               </div>
             </div>
@@ -1993,6 +2116,16 @@
                   </div>
                 </div>
                 <ul class="quality-ledger" id="qualityLedger"></ul>
+                <div class="teacher-toolkit" aria-label="Teacher toolkit copy buttons">
+                  <span class="teacher-toolkit-title">Teacher Toolkit</span>
+                  <div class="teacher-toolkit-actions">
+                    <button type="button" data-toolkit-copy="opening">Opening line</button>
+                    <button type="button" data-toolkit-copy="board">Board activity</button>
+                    <button type="button" data-toolkit-copy="flow">5-min flow</button>
+                    <button type="button" data-toolkit-copy="homework">Homework prompt</button>
+                    <button type="button" data-toolkit-copy="reflection">Reflection question</button>
+                  </div>
+                </div>
               </div>
               <textarea id="messageText" readonly spellcheck="false"></textarea>
             </div>
@@ -2186,6 +2319,31 @@
       "Coaching-specific claims stay hidden unless supported by a credible source."
     ];
 
+    const TRACK_FILTERS = [
+      { value: "all", label: "All tracks" },
+      { value: "math", label: "Math" },
+      { value: "coding", label: "Coding" },
+      { value: "ai", label: "AI" },
+      { value: "physics", label: "Physics/Astronomy" },
+      { value: "chem-bio", label: "Chemistry/Biology" },
+      { value: "crypto-systems", label: "Crypto/Systems" },
+      { value: "education", label: "Education" },
+      { value: "india", label: "India-linked" }
+    ];
+
+    const REVIEW_FILTERS = [
+      { value: "all", label: "All review states" },
+      { value: "published", label: "Published" },
+      { value: "needs-review", label: "Needs review" }
+    ];
+
+    const MESSAGE_MODES = {
+      "royal-short": "Royal Short",
+      "student-deep": "Student Deep",
+      "teacher-lab": "Teacher Lab",
+      "parent-note": "Parent Note"
+    };
+
     function normalizeText(value) {
       return String(value || "")
         .toLowerCase()
@@ -2196,18 +2354,20 @@
     }
 
     const state = {
-      activeId: profiles[getTodayIndex()]?.id || profiles[0]?.id || "",
+      activeId: getTodayProfile()?.id || profiles[0]?.id || "",
       query: "",
-      domain: "all",
-      region: "all",
+      track: "all",
+      review: "all",
       mode: "story",
       archiveQuery: "",
       archiveAward: "all",
       archiveCountry: "all",
-      audience: "student"
+      messageMode: "student-deep"
     };
 
     const els = {
+      sidebar: document.getElementById("profileSidebar"),
+      filterToggleBtn: document.getElementById("filterToggleBtn"),
       searchInput: document.getElementById("searchInput"),
       domainFilter: document.getElementById("domainFilter"),
       regionFilter: document.getElementById("regionFilter"),
@@ -2220,7 +2380,8 @@
       copyMessageBtn: document.getElementById("copyMessageBtn"),
       copySourcesBtn: document.getElementById("copySourcesBtn"),
       audienceHint: document.getElementById("audienceHint"),
-      audienceButtons: document.querySelectorAll("[data-audience-button]"),
+      messageModeButtons: document.querySelectorAll("[data-message-mode-button]"),
+      toolkitButtons: document.querySelectorAll("[data-toolkit-copy]"),
       modeButtons: document.querySelectorAll("[data-mode-button]"),
       dateLabel: document.getElementById("dateLabel"),
       rotationLabel: document.getElementById("rotationLabel"),
@@ -2229,6 +2390,7 @@
       profileRole: document.getElementById("profileRole"),
       profileHeadline: document.getElementById("profileHeadline"),
       chips: document.getElementById("chips"),
+      reviewBadges: document.getElementById("reviewBadges"),
       classroomAngle: document.getElementById("classroomAngle"),
       dailyAction: document.getElementById("dailyAction"),
       sourceCount: document.getElementById("sourceCount"),
@@ -2278,12 +2440,36 @@
     }
 
     function getTodayIndex() {
-      if (!window.OLYMPIAD_PROFILES?.length) return 0;
+      const rotationProfiles = publishedProfiles();
+      if (!rotationProfiles.length) return 0;
       const parts = getIndiaDateParts();
       const current = Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day));
       const start = Date.UTC(Number(parts.year), 0, 1);
       const day = Math.floor((current - start) / 86400000) + 1;
-      return (day - 1) % window.OLYMPIAD_PROFILES.length;
+      return (day - 1) % rotationProfiles.length;
+    }
+
+    function profileReview(profile) {
+      return profile.review || {
+        olympiadProof: "needs-stronger-proof",
+        impactProof: "needs-stronger-source",
+        teacherReady: false,
+        status: "needs-review",
+        notes: "Review metadata missing."
+      };
+    }
+
+    function profileStatus(profile) {
+      return profileReview(profile).status === "published" ? "published" : "needs-review";
+    }
+
+    function publishedProfiles() {
+      return profiles.filter((profile) => profileStatus(profile) === "published");
+    }
+
+    function getTodayProfile() {
+      const rotationProfiles = publishedProfiles();
+      return rotationProfiles[getTodayIndex()] || rotationProfiles[0] || profiles[0];
     }
 
     function formatIndiaDate() {
@@ -2339,6 +2525,34 @@
       return internalWarning ? "" : note;
     }
 
+    function trackText(profile) {
+      return [
+        profile.name,
+        profile.country,
+        profile.region,
+        profile.domain,
+        profile.role,
+        profile.headline,
+        ...(profile.olympiad || []),
+        ...(profile.impact || []),
+        ...(profile.indiaConnect || [])
+      ].join(" ").toLowerCase();
+    }
+
+    function matchesTrack(profile, track) {
+      if (track === "all") return true;
+      const text = trackText(profile);
+      if (track === "india") return text.includes("india") || text.includes("indian");
+      if (track === "math") return /math|geometry|number theory|combinatorics|imo|inmo|ioqm|proof|fields medal/.test(text);
+      if (track === "coding") return /coding|programming|informatics|ioi|algorithm|software|usaco/.test(text);
+      if (track === "ai") return /\\bai\\b|openai|deep learning|machine learning|reasoning|cognition/.test(text);
+      if (track === "physics") return /physics|astronomy|astrophysics|ipho|ioaa|models/.test(text);
+      if (track === "chem-bio") return /chemistry|biology|icho|ibo|lab/.test(text);
+      if (track === "crypto-systems") return /crypto|blockchain|security|secure|systems|protocol|distributed/.test(text);
+      if (track === "education") return /education|teacher|teaching|public writing|communication|mentor|classroom/.test(text);
+      return true;
+    }
+
     function searchText(profile) {
       return [
         profile.name,
@@ -2359,9 +2573,9 @@
     function getFilteredProfiles() {
       const q = state.query.trim().toLowerCase();
       return profiles.filter((profile) => {
-        const domainMatch = state.domain === "all" || profile.domain === state.domain;
-        const regionMatch = state.region === "all" || profile.region.includes(state.region);
-        return domainMatch && regionMatch && (!q || searchText(profile).includes(q));
+        const trackMatch = matchesTrack(profile, state.track);
+        const reviewMatch = state.review === "all" || profileStatus(profile) === state.review;
+        return trackMatch && reviewMatch && (!q || searchText(profile).includes(q));
       });
     }
 
@@ -2423,13 +2637,15 @@
       const indian = profiles.filter((profile) => profile.region.includes("India")).length;
       const sources = profiles.reduce((count, profile) => count + (profile.sources?.length || 0), 0);
       const proofReceipts = profiles.reduce((count, profile) => count + getProofLinks(profile).length, 0);
+      const published = profiles.filter((profile) => profileStatus(profile) === "published").length;
+      const needsReview = profiles.length - published;
       els.stats.innerHTML = "";
       [
         [profiles.length, "profiles"],
-        [sources, "source links"],
-        [proofReceipts, "proof receipts"],
-        [indian, "India-linked"],
+        [published, "published"],
+        [needsReview, "needs review"],
         [medalists.length ? medalists.length.toLocaleString("en-IN") : 0, "IMO archive"],
+        [proofReceipts, "proof receipts"],
         [getFilteredProfiles().length, "showing"]
       ].forEach(([value, label]) => {
         const stat = document.createElement("div");
@@ -2443,8 +2659,10 @@
       const sources = profiles.reduce((count, profile) => count + (profile.sources?.length || 0), 0);
       const proofReceipts = profiles.reduce((count, profile) => count + getProofLinks(profile).length, 0);
       const totals = medalistArchive.totals || {};
+      const published = profiles.filter((profile) => profileStatus(profile) === "published").length;
+      const needsReview = profiles.length - published;
       const metrics = [
-        [profiles.length, "Deep stories", "Student and teacher narratives with source links."],
+        [`${published}/${profiles.length}`, "Published stories", `${needsReview} profiles are searchable but held out of daily rotation.`],
         [formatNumber(totals.people || medalists.length), "Archive sparks", "Search official IMO people and copy verified motivation sparks."],
         [OFFICIAL_OLYMPIAD_RESOURCES.length, "Resource streams", "Math, physics, chemistry, biology, astronomy, informatics, AI."],
         [proofReceipts, "Proof receipts", `${sources} total profile source links kept inside the studio.`]
@@ -2493,7 +2711,7 @@
         name.textContent = profile.name;
         const meta = document.createElement("span");
         meta.className = "person-meta";
-        meta.textContent = `${profile.domain} | ${profile.country}`;
+        meta.textContent = `${profile.domain} | ${profile.country} | ${profileStatus(profile) === "published" ? "Published" : "Needs review"}`;
         copy.append(name, meta);
         button.append(avatar, copy);
         button.addEventListener("click", () => {
@@ -2543,6 +2761,38 @@
       return profiles.find((profile) => {
         const profileName = normalizeText(profile.name);
         return medalistName.includes(profileName) || profileName.includes(medalistName);
+      });
+    }
+
+    function reviewBadgeItems(profile) {
+      const review = profileReview(profile);
+      return [
+        {
+          label: review.olympiadProof === "verified-direct" ? "Olympiad proof verified" : review.olympiadProof === "verified-source" ? "Olympiad source verified" : "Needs stronger proof",
+          tone: review.olympiadProof === "verified-direct" ? "ok" : review.olympiadProof === "verified-source" ? "warning" : "needs"
+        },
+        {
+          label: review.impactProof === "verified" ? "Public impact verified" : "Needs impact source",
+          tone: review.impactProof === "verified" ? "ok" : "needs"
+        },
+        {
+          label: review.teacherReady ? "Teacher-ready" : "Teacher draft",
+          tone: review.teacherReady ? "ok" : "warning"
+        },
+        {
+          label: review.status === "published" ? "Published rotation" : "Needs review",
+          tone: review.status === "published" ? "ok" : "needs"
+        }
+      ];
+    }
+
+    function renderReviewBadges(profile) {
+      els.reviewBadges.innerHTML = "";
+      reviewBadgeItems(profile).forEach((badge) => {
+        const item = document.createElement("span");
+        item.className = `review-badge ${badge.tone === "ok" ? "" : badge.tone}`.trim();
+        item.textContent = badge.label;
+        els.reviewBadges.append(item);
       });
     }
 
@@ -2675,12 +2925,14 @@
       }
 
       const profile = activeProfile();
-      const todayId = profiles[getTodayIndex()]?.id;
+      const todayId = getTodayProfile()?.id;
+      const rotationProfiles = publishedProfiles();
+      const rotationIndex = rotationProfiles.findIndex((item) => item.id === profile.id);
       const index = profiles.findIndex((item) => item.id === profile.id);
 
       els.dateLabel.textContent = `India date: ${formatIndiaDate()}`;
       els.rotationLabel.textContent = profile.id === todayId
-        ? `Today's profile | ${index + 1} of ${profiles.length}`
+        ? `Today's profile | ${rotationIndex + 1} of ${rotationProfiles.length} published`
         : `Profile ${index + 1} of ${profiles.length}`;
 
       els.heroAvatar.className = `hero-avatar ${domainClass(profile)}`;
@@ -2690,10 +2942,11 @@
       els.profileHeadline.textContent = profile.headline;
       els.chips.innerHTML = "";
       [profile.domain, profile.country, profile.region].forEach((text) => els.chips.append(makeChip(text)));
+      renderReviewBadges(profile);
       els.classroomAngle.textContent = profile.indiaConnect?.[0] || profile.headline;
       els.dailyAction.textContent = profile.practice;
       els.sourceCount.textContent = `${profile.sources.length} sources`;
-      els.qualityPill.textContent = profile.quality.toLowerCase().includes("high confidence") ? "High confidence" : "Verify wording";
+      els.qualityPill.textContent = profileStatus(profile) === "published" ? "Published" : "Needs review";
 
       renderList(els.whyPopular, profile.whyPopular);
       renderList(els.olympiad, profile.olympiad);
@@ -2739,7 +2992,7 @@
         link.append(title, note);
         els.officialLinks.append(link);
       });
-      els.qualityNote.textContent = profile.quality;
+      els.qualityNote.textContent = `${profile.quality} Review note: ${profileReview(profile).notes}`;
       els.sparkTitle.textContent = `${firstName(profile)}: from rough work to real-world impact`;
       els.sparkCopy.textContent = sparkCopy(profile);
       els.sparkLens.textContent = thinkingLens(profile);
@@ -2754,23 +3007,33 @@
       renderMissionGrid();
       renderCoverageGrid();
       updateAudienceControls();
-      els.messageText.value = formatWhatsApp(profile, state.audience);
+      els.messageText.value = formatWhatsApp(profile, state.messageMode);
     }
 
     function updateAudienceControls() {
-      const teacher = state.audience === "teacher";
-      els.audienceButtons.forEach((button) => {
-        const active = button.dataset.audienceButton === state.audience;
+      const mode = state.messageMode;
+      const teacher = mode === "teacher-lab";
+      els.messageModeButtons.forEach((button) => {
+        const active = button.dataset.messageModeButton === mode;
         button.classList.toggle("active", active);
         button.setAttribute("aria-selected", String(active));
       });
-      els.sparkKicker.textContent = teacher ? "Teacher-ready lesson spark" : "Student-ready motivation spark";
-      els.audienceHint.textContent = teacher
-        ? "Respectful classroom flow for teachers to guide discussion."
-        : "Direct encouragement for students to learn, reflect, and return tomorrow.";
-      els.sparkLensLabel.textContent = teacher ? "Teaching lens" : "Student lens";
-      els.copyMessageBtn.textContent = teacher ? "Copy Teacher" : "Copy Student";
-      els.copyTopBtn.textContent = teacher ? "Copy Teacher" : "Copy Student";
+      els.sparkKicker.textContent = {
+        "royal-short": "Elegant short daily spark",
+        "student-deep": "Student-ready motivation spark",
+        "teacher-lab": "Teacher-ready lesson spark",
+        "parent-note": "Parent-ready encouragement note"
+      }[mode] || "WhatsApp-ready spark";
+      els.audienceHint.textContent = {
+        "royal-short": "Compact, premium message with only the strongest proof links.",
+        "student-deep": "Direct encouragement for students to learn, reflect, and return tomorrow.",
+        "teacher-lab": "Respectful classroom flow for teachers to guide discussion.",
+        "parent-note": "Parent-friendly framing around patience, effort, and long-term growth."
+      }[mode] || "";
+      els.sparkLensLabel.textContent = teacher ? "Teaching lens" : mode === "parent-note" ? "Parent lens" : "Student lens";
+      const label = MESSAGE_MODES[mode] || "Message";
+      els.copyMessageBtn.textContent = `Copy ${label}`;
+      els.copyTopBtn.textContent = `Copy ${label}`;
     }
 
     function firstName(profile) {
@@ -2954,9 +3217,27 @@
       return QUALITY_LEDGER.map((line, index) => `${icons[index % icons.length]} ${line}`).join("\n\n");
     }
 
-    function proofLines(profile) {
+    function selectedSourceLines(profile, maxLinks = 4) {
+      const lines = [];
+      const urls = new Set();
+      const add = (label, detail, url) => {
+        if (!url || urls.has(url) || lines.length >= maxLinks) return;
+        urls.add(url);
+        lines.push([
+          `*${lines.length + 1}. ${label}*`,
+          detail ? `${detail}:` : null,
+          url
+        ].filter(Boolean).join("\n"));
+      };
+
+      getProofLinks(profile).forEach((proof) => add(proof.label, proof.detail, proof.url));
+      (profile.sources || []).forEach((source) => add(source.label, source.type, source.url));
+      return lines.join("\n\n");
+    }
+
+    function proofLines(profile, limit = Infinity) {
       const icons = ["🔐", "📎", "🧾"];
-      return getProofLinks(profile).map((proof, index) => [
+      return getProofLinks(profile).slice(0, limit).map((proof, index) => [
         `${icons[index % icons.length]} *${proof.label}*`,
         `${proof.detail}:`,
         proof.url
@@ -3047,8 +3328,51 @@
       return `Use this profile to show students how ${firstName(profile)}'s Olympiad habits connect to ${profile.domain}, public work, and one concrete action they can try today.`;
     }
 
-    function formatWhatsApp(profile, audience = state.audience) {
-      return audience === "teacher" ? formatTeacherWhatsApp(profile) : formatStudentWhatsApp(profile);
+    function formatWhatsApp(profile, mode = state.messageMode) {
+      if (mode === "royal-short") return formatRoyalShortWhatsApp(profile);
+      if (mode === "teacher-lab") return formatTeacherWhatsApp(profile);
+      if (mode === "parent-note") return formatParentNoteWhatsApp(profile);
+      return formatStudentWhatsApp(profile);
+    }
+
+    function formatRoyalShortWhatsApp(profile) {
+      const icons = emojiPalette(profile);
+      const lens = thinkingLens(profile);
+      return [
+        styleFrame(`📜 *${fancyTitle("THE OLYMPIAD ALMANAC")}*`, "⚡ *Royal Short: one story, one habit, one action* ⚡"),
+        "",
+        `📅 *${formatIndiaDate()}*`,
+        "",
+        sectionTitle("👤", "Today's Profile"),
+        "",
+        `*${fancyTitle(profile.name)}*`,
+        `_${emphasizeKeyTerms(profile.headline)}_`,
+        "",
+        `${icons[0]} *Field:* ${profile.domain}`,
+        `${icons[1]} *Habit lens:* ${lens} under pressure`,
+        "",
+        STYLE_DIVIDER,
+        "",
+        sectionTitle("🔥", "Why It Matters"),
+        "",
+        bulletLines(profile.whyPopular.slice(0, 2), profile),
+        "",
+        quoteLine("A difficult problem is not blocking you; it is building you."),
+        "",
+        STYLE_DIVIDER,
+        "",
+        sectionTitle("🎯", "Today's Action"),
+        "",
+        emphasizeKeyTerms(profile.practice),
+        "",
+        STYLE_DIVIDER,
+        "",
+        sectionTitle("🔐", "Proof"),
+        "",
+        selectedSourceLines(profile, 2),
+        "",
+        styleFrame("✍️ *Reflection*\n\n*Which habit did today's problem train in me?*")
+      ].join("\n");
     }
 
     function formatStudentWhatsApp(profile) {
@@ -3150,15 +3474,13 @@
         "",
         sectionTitle("🔐", "Proof And Sources"),
         "",
-        proofLines(profile),
-        "",
-        sourceLines(profile, 3),
+        selectedSourceLines(profile, 4),
         "",
         STYLE_DIVIDER,
         "",
         sectionTitle("🌐", "Focused Olympiad Desk"),
         "",
-        officialResourceLines(profile, 6),
+        "More official Olympiad resources and profile sources are available on the website.",
         "",
         STYLE_DIVIDER,
         "",
@@ -3273,15 +3595,13 @@
         "",
         sectionTitle("🔐", "Proof And Sources"),
         "",
-        proofLines(profile),
-        "",
-        sourceLines(profile, 3),
+        selectedSourceLines(profile, 4),
         "",
         STYLE_DIVIDER,
         "",
         sectionTitle("🌐", "Focused Olympiad Desk"),
         "",
-        officialResourceLines(profile, 6),
+        "More official Olympiad resources and profile sources are available on the website.",
         "",
         "Quality rule: person-specific coaching claims are included only when supported by a credible source. Otherwise, the message stays respectful to every teacher, institute, and student.",
         "",
@@ -3293,6 +3613,57 @@
         "",
         styleFrame("✍️ *Classroom Reflection*\n\n*Ask students to write one learning line after the discussion. That line matters more than a simple forward.*")
       ].filter((line) => line !== null && line !== undefined).join("\n");
+    }
+
+    function formatParentNoteWhatsApp(profile) {
+      const icons = emojiPalette(profile);
+      return [
+        styleFrame(`📜 *${fancyTitle("THE OLYMPIAD ALMANAC")}*`, "👨‍👩‍👧 *Parent Note: encouragement with proof*"),
+        "",
+        `📅 *${formatIndiaDate()}*`,
+        "",
+        "Dear Parents,",
+        "",
+        "Olympiad preparation is not only about a medal. It is a way of training patience, clarity, and courage in a child who is learning to face hard problems.",
+        "",
+        STYLE_DIVIDER,
+        "",
+        sectionTitle("👤", "Today's Example"),
+        "",
+        `*${fancyTitle(profile.name)}*`,
+        `_${emphasizeKeyTerms(profile.headline)}_`,
+        "",
+        `${icons[0]} *Known for:* ${emphasizeKeyTerms(profile.role)}`,
+        `${icons[1]} *Olympiad foundation:* ${emphasizeKeyTerms((profile.olympiad || [])[0] || "Verified Olympiad background")}`,
+        "",
+        STYLE_DIVIDER,
+        "",
+        sectionTitle("🌱", "What To Encourage At Home"),
+        "",
+        `${icons[2]} ${emphasizeKeyTerms(profile.parentTeacherNote)}`,
+        "",
+        "Please notice effort that is not immediately visible: rough work, failed attempts, rewritten proofs, debugging, checking, and asking why.",
+        "",
+        quoteLine("Marks are short-term feedback. Thinking quality is long-term capital."),
+        "",
+        STYLE_DIVIDER,
+        "",
+        sectionTitle("🎯", "Today's Gentle Action"),
+        "",
+        "Ask your child one question after study time:",
+        "",
+        "✍️ *Reflection question:*",
+        "",
+        quoteLine("What became clearer today, even if the full solution did not come?"),
+        "",
+        STYLE_DIVIDER,
+        "",
+        sectionTitle("🔐", "Proof"),
+        "",
+        selectedSourceLines(profile, 2),
+        "",
+        styleFrame("✅ *Parent Takeaway*\n\n*Encourage the attempt, the correction, and the return to the problem. That is where confidence is built.*")
+      ].join("\n");
     }
 
     function formatArchiveSpark(person) {
@@ -3345,7 +3716,7 @@
         "",
         sectionTitle("🔐", "Official Proof"),
         "",
-        `*IMO contestant record:*`,
+        `*Official IMO contestant record:*`,
         person.officialUrl,
         "",
         STYLE_DIVIDER,
@@ -3356,6 +3727,52 @@
         "",
         styleFrame("✍️ *Reflection*\n\n*What did I learn from today's struggle?*")
       ].join("\n");
+    }
+
+    function teacherToolkitText(profile, kind) {
+      const visual = visualActivity(profile);
+      const icons = emojiPalette(profile);
+      const map = {
+        opening: [
+          "🎙️ *Opening line for class*",
+          "",
+          teacherOpening(profile)
+        ],
+        board: [
+          "🎨 *Board activity*",
+          "",
+          visual[0],
+          visual[1],
+          visual[2]
+        ],
+        flow: [
+          "🧭 *5-minute classroom flow*",
+          "",
+          `${icons[0]} *1 minute:* Ask which Olympiad habit still matters 10 years later.`,
+          `${icons[1]} *1 minute:* Introduce ${profile.name} and the verified Olympiad context.`,
+          `${icons[2]} *1 minute:* Draw the journey map on the board.`,
+          `${icons[3]} *1 minute:* Ask students to name one habit today's problem is training.`,
+          `${icons[4]} *1 minute:* Give the action: ${profile.practice}`
+        ],
+        homework: [
+          "📘 *Homework prompt*",
+          "",
+          profile.practice,
+          "",
+          "Add three lines below your solution:",
+          "1. Where did my first idea fail?",
+          "2. What hidden condition did I miss?",
+          "3. What will I try differently tomorrow?"
+        ],
+        reflection: [
+          "✍️ *Reflection question*",
+          "",
+          "Today's problem trained me in ______ because ______.",
+          "",
+          "One mistake I will respect and learn from is ______."
+        ]
+      };
+      return (map[kind] || map.opening).join("\n");
     }
 
     async function copyText(text, label) {
@@ -3385,10 +3802,21 @@
     }
 
     function initFilters() {
-      const domains = [...new Set(profiles.map((profile) => profile.domain))].sort();
-      const regions = [...new Set(profiles.flatMap((profile) => profile.region.split(" / ")))].sort();
-      buildOptions(els.domainFilter, domains, "domains");
-      buildOptions(els.regionFilter, regions, "regions");
+      els.domainFilter.innerHTML = "";
+      TRACK_FILTERS.forEach(({ value, label }) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        els.domainFilter.append(option);
+      });
+
+      els.regionFilter.innerHTML = "";
+      REVIEW_FILTERS.forEach(({ value, label }) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        els.regionFilter.append(option);
+      });
     }
 
     function initArchiveFilters() {
@@ -3433,6 +3861,13 @@
       }
     }
 
+    function applyMobileFilterState() {
+      const mobile = window.matchMedia("(max-width: 680px)").matches;
+      els.sidebar.classList.toggle("filters-collapsed", mobile);
+      els.filterToggleBtn.textContent = mobile ? "Search profiles and filters" : "Search and filters";
+      els.filterToggleBtn.setAttribute("aria-expanded", String(!mobile));
+    }
+
     els.searchInput.addEventListener("input", (event) => {
       state.query = event.target.value;
       renderStats();
@@ -3440,7 +3875,7 @@
     });
 
     els.domainFilter.addEventListener("change", (event) => {
-      state.domain = event.target.value;
+      state.track = event.target.value;
       const filtered = getFilteredProfiles();
       if (filtered.length && !filtered.some((profile) => profile.id === state.activeId)) {
         state.activeId = filtered[0].id;
@@ -3449,7 +3884,7 @@
     });
 
     els.regionFilter.addEventListener("change", (event) => {
-      state.region = event.target.value;
+      state.review = event.target.value;
       const filtered = getFilteredProfiles();
       if (filtered.length && !filtered.some((profile) => profile.id === state.activeId)) {
         state.activeId = filtered[0].id;
@@ -3461,9 +3896,15 @@
       button.addEventListener("click", () => setMode(button.dataset.modeButton));
     });
 
-    els.audienceButtons.forEach((button) => {
+    els.filterToggleBtn.addEventListener("click", () => {
+      const collapsed = els.sidebar.classList.toggle("filters-collapsed");
+      els.filterToggleBtn.setAttribute("aria-expanded", String(!collapsed));
+      els.filterToggleBtn.textContent = collapsed ? "Search profiles and filters" : "Hide profiles and filters";
+    });
+
+    els.messageModeButtons.forEach((button) => {
       button.addEventListener("click", () => {
-        state.audience = button.dataset.audienceButton;
+        state.messageMode = button.dataset.messageModeButton;
         renderProfile();
       });
     });
@@ -3486,7 +3927,7 @@
     els.prevBtn.addEventListener("click", () => move(-1));
     els.nextBtn.addEventListener("click", () => move(1));
     els.todayBtn.addEventListener("click", () => {
-      state.activeId = profiles[getTodayIndex()]?.id || profiles[0]?.id;
+      state.activeId = getTodayProfile()?.id || profiles[0]?.id;
       render();
     });
     els.copyTopBtn.addEventListener("click", () => copyText(els.messageText.value, "WhatsApp message"));
@@ -3494,12 +3935,19 @@
     els.copySourcesBtn.addEventListener("click", () => {
       copyText(`${sourceLines(activeProfile())}\n\n${officialResourceLines()}`, "Official links");
     });
+    els.toolkitButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        copyText(teacherToolkitText(activeProfile(), button.dataset.toolkitCopy), button.textContent.trim());
+      });
+    });
     els.archiveOfficialBtn.addEventListener("click", () => {
       window.open("https://www.imo-official.org/results/", "_blank", "noreferrer");
     });
 
     initFilters();
     initArchiveFilters();
+    applyMobileFilterState();
+    window.addEventListener("resize", applyMobileFilterState);
     render();
   </script>
 </body>
