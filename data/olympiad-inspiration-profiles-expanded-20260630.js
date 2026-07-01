@@ -143,7 +143,7 @@ window.OLYMPIAD_PROFILES = [
       "Helps parents see that Olympiad preparation can support, not distract from, mainstream exams.",
       "Useful for students who love more than one subject."
     ],
-    coachingConnect: "No verified ALLEN-specific link added. Keep the focus on Olympiad + JEE + AI trajectory unless a primary coaching source is available.",
+    coachingConnect: "",
     practice: "Take one problem today and solve it using two subjects: a mathematical model and a computational check.",
     parentTeacherNote: "Do not force students to choose between Olympiad depth and exam performance too early; for some children, depth strengthens everything.",
     quality: "High confidence on broad Olympiad/JEE/OpenAI trajectory; avoid claiming specific product ownership beyond sourced OpenAI/public reporting.",
@@ -862,7 +862,7 @@ window.OLYMPIAD_PROFILES = [
       "Shows the value of starting early and staying consistent.",
       "Good for students who need a living, recent benchmark."
     ],
-    coachingConnect: "No ALLEN-specific verified link included in this profile. Keep the message focused on Indian Olympiad consistency.",
+    coachingConnect: "",
     practice: "Choose one old Olympiad problem and rewrite the final proof cleanly after solving it.",
     parentTeacherNote: "Olympiad progress is often multi-year; patience matters more than one test result.",
     quality: "Good confidence through official IMO India results; use official rows for exact year/medal if making posters.",
@@ -911,7 +911,7 @@ window.OLYMPIAD_PROFILES = [
       "Can be used when discussing why early Olympiad exposure matters.",
       "Helps students see that Indian classrooms can produce international medalists."
     ],
-    coachingConnect: "Verified public ALLEN connection available; mention carefully as an example, not as a guarantee of outcome.",
+    coachingConnect: "Public ALLEN source is available for this story; keep the classroom message focused on the student's effort, consistency, and problem-solving habits.",
     practice: "Pick one geometry problem and write a diagram-based plan before writing the proof.",
     parentTeacherNote: "A coaching system helps only when the student develops independent thinking; practice quality still matters.",
     quality: "Good confidence through official IMO India records and ALLEN public news; verify exact medal/year before image posters.",
@@ -965,7 +965,7 @@ window.OLYMPIAD_PROFILES = [
       "Can connect with students who want recent Indian examples, not only famous global researchers.",
       "Useful for teachers building a daily motivation series."
     ],
-    coachingConnect: "Public ALLEN-linked reporting exists; mention only with the source attached.",
+    coachingConnect: "Public ALLEN-linked reporting is available; use it as one evidence link while keeping the story centered on learning habits.",
     practice: "Explain one solved problem to a junior student in five bullet points.",
     parentTeacherNote: "When students teach, they refine their own thinking and become more confident.",
     quality: "Good confidence through IMO India results and coaching/public news; verify exact institutional wording before promotional use.",
@@ -1020,7 +1020,7 @@ window.OLYMPIAD_PROFILES = [
       "Good for science Olympiad motivation in classes 8-12.",
       "Shows that curiosity-driven preparation can also produce mainstream exam excellence."
     ],
-    coachingConnect: "No verified ALLEN link added; public reporting often connects him with other coaching ecosystems, so avoid ALLEN wording here.",
+    coachingConnect: "",
     practice: "Take one physics question and first write the physical story before using formulas.",
     parentTeacherNote: "Conceptual clarity is more durable than memorized formula lists.",
     quality: "Good confidence for public JEE/Olympiad narrative; use official Olympiad sources for exact medals before printed materials.",

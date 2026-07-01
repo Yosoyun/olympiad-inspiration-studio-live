@@ -2042,6 +2042,23 @@
       return profiles.find((profile) => profile.id === state.activeId) || profiles[0];
     }
 
+    function safeCoachingConnect(profile) {
+      const note = String(profile.coachingConnect || "").trim();
+      if (!note) return "";
+      const lower = note.toLowerCase();
+      const internalWarning = [
+        "no verified",
+        "not verified",
+        "not included",
+        "not added",
+        "avoid allen",
+        "avoid wording",
+        "unless a primary",
+        "no allen-specific"
+      ].some((phrase) => lower.includes(phrase));
+      return internalWarning ? "" : note;
+    }
+
     function searchText(profile) {
       return [
         profile.name,
@@ -2055,7 +2072,7 @@
         ...(profile.impact || []),
         ...(profile.indiaConnect || []),
         ...(profile.proofLinks || []).flatMap((proof) => [proof.label, proof.detail, proof.url]),
-        profile.coachingConnect || ""
+        safeCoachingConnect(profile)
       ].join(" ").toLowerCase();
     }
 
@@ -2363,9 +2380,10 @@
       renderList(els.indiaConnect, profile.indiaConnect);
       renderProofLinks(profile);
 
-      if (profile.coachingConnect) {
+      const coachingNote = safeCoachingConnect(profile);
+      if (coachingNote) {
         els.coachingNote.hidden = false;
-        els.coachingNote.textContent = `Coaching connection: ${profile.coachingConnect}`;
+        els.coachingNote.textContent = `Coaching connection: ${coachingNote}`;
       } else {
         els.coachingNote.hidden = true;
       }
@@ -2701,7 +2719,7 @@
         "🇮🇳 *CONNECT THE DOTS FOR INDIAN STUDENTS*",
         "",
         bulletLines(profile.indiaConnect, profile),
-        profile.coachingConnect ? `\n\n🏫 *Coaching / classroom note*\n\n${emojiPalette(profile)[0]} ${emphasizeKeyTerms(profile.coachingConnect)}` : null,
+        safeCoachingConnect(profile) ? `\n\n🏫 *Coaching / classroom note*\n\n${emojiPalette(profile)[0]} ${emphasizeKeyTerms(safeCoachingConnect(profile))}` : null,
         "",
         "A student preparing for IOQM, INMO, IMO, IOI, or any serious Olympiad should understand this deeply:",
         "",
