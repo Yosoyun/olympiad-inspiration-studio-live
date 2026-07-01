@@ -6,7 +6,6 @@
   <title>The Olympiad Intelligence Almanac</title>
   <meta name="description" content="A premium daily Olympiad inspiration almanac with verified WhatsApp-ready profiles for Indian students, parents, and teachers.">
   <script src="data/olympiad-inspiration-profiles-expanded-20260630.js"></script>
-  <script src="data/imo-medalist-directory-20260630.js"></script>
   <style>
     :root {
       --serif: Georgia, "Times New Roman", Times, serif;
@@ -2184,8 +2183,21 @@
 
   <script>
     const profiles = Array.isArray(window.OLYMPIAD_PROFILES) ? window.OLYMPIAD_PROFILES : [];
-    const medalistArchive = window.IMO_MEDALIST_DIRECTORY || {};
-    const medalists = Array.isArray(medalistArchive.medalists) ? medalistArchive.medalists : [];
+    const ARCHIVE_SUMMARY = {
+      coverage: "1959-2025",
+      sourceName: "International Mathematical Olympiad official results",
+      sourceUrl: "https://www.imo-official.org/results/",
+      people: 10208,
+      records: 15086,
+      gold: 1845,
+      silver: 3731,
+      bronze: 5499,
+      hm: 4011,
+      countryPagesChecked: 141
+    };
+    let medalistArchive = window.IMO_MEDALIST_DIRECTORY || {};
+    let medalists = Array.isArray(medalistArchive.medalists) ? medalistArchive.medalists : [];
+    let archiveLoadPromise = null;
     const AWARD_LABELS = {
       gold: "Gold",
       silver: "Silver",
@@ -2644,7 +2656,7 @@
         [profiles.length, "profiles"],
         [published, "published"],
         [needsReview, "needs review"],
-        [medalists.length ? medalists.length.toLocaleString("en-IN") : 0, "IMO archive"],
+        [formatNumber(medalistArchive.totals?.people || ARCHIVE_SUMMARY.people), "IMO archive"],
         [proofReceipts, "proof receipts"],
         [getFilteredProfiles().length, "showing"]
       ].forEach(([value, label]) => {
@@ -2658,12 +2670,12 @@
     function renderMissionGrid() {
       const sources = profiles.reduce((count, profile) => count + (profile.sources?.length || 0), 0);
       const proofReceipts = profiles.reduce((count, profile) => count + getProofLinks(profile).length, 0);
-      const totals = medalistArchive.totals || {};
+      const totals = medalistArchive.totals || ARCHIVE_SUMMARY;
       const published = profiles.filter((profile) => profileStatus(profile) === "published").length;
       const needsReview = profiles.length - published;
       const metrics = [
         [`${published}/${profiles.length}`, "Published stories", `${needsReview} profiles are searchable but held out of daily rotation.`],
-        [formatNumber(totals.people || medalists.length), "Archive sparks", "Search official IMO people and copy verified motivation sparks."],
+        [formatNumber(totals.people || ARCHIVE_SUMMARY.people), "Archive sparks", "Search official IMO people and copy verified motivation sparks."],
         [OFFICIAL_OLYMPIAD_RESOURCES.length, "Resource streams", "Math, physics, chemistry, biology, astronomy, informatics, AI."],
         [proofReceipts, "Proof receipts", `${sources} total profile source links kept inside the studio.`]
       ];
@@ -2732,6 +2744,32 @@
 
     function formatNumber(value) {
       return Number(value || 0).toLocaleString("en-IN");
+    }
+
+    function loadMedalistArchive() {
+      if (medalists.length) return Promise.resolve(medalistArchive);
+      if (archiveLoadPromise) return archiveLoadPromise;
+      els.archiveCoverage.textContent = "Loading official IMO archive. The daily story stays usable while this loads.";
+      els.archiveCount.textContent = "Loading";
+      archiveLoadPromise = new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "data/imo-medalist-directory-20260630.js";
+        script.async = true;
+        script.onload = () => {
+          medalistArchive = window.IMO_MEDALIST_DIRECTORY || {};
+          medalists = Array.isArray(medalistArchive.medalists) ? medalistArchive.medalists : [];
+          initArchiveFilters();
+          renderStats();
+          renderMissionGrid();
+          resolve(medalistArchive);
+        };
+        script.onerror = () => {
+          archiveLoadPromise = null;
+          reject(new Error("Unable to load IMO archive data."));
+        };
+        document.head.append(script);
+      });
+      return archiveLoadPromise;
     }
 
     function awardClass(award) {
@@ -2817,10 +2855,10 @@
     }
 
     function renderArchiveStats() {
-      const totals = medalistArchive.totals || {};
+      const totals = medalistArchive.totals || ARCHIVE_SUMMARY;
       els.archiveStats.innerHTML = "";
       [
-        [medalistArchive.coverage || "--", "official years"],
+        [medalistArchive.coverage || ARCHIVE_SUMMARY.coverage, "official years"],
         [formatNumber(totals.people), "verified people"],
         [formatNumber(totals.gold), "gold records"],
         [formatNumber(totals.silver), "silver records"],
@@ -2836,11 +2874,11 @@
 
     function renderMedalistArchive() {
       if (!medalists.length) {
-        els.archiveCoverage.textContent = "Official IMO archive data is not loaded.";
-        els.archiveCount.textContent = "0 records";
-        els.archiveStats.innerHTML = "";
+        els.archiveCoverage.textContent = `Official IMO archive will load when this tab opens. Coverage ${ARCHIVE_SUMMARY.coverage}; ${formatNumber(ARCHIVE_SUMMARY.people)} verified people.`;
+        els.archiveCount.textContent = "Tap to load";
+        renderArchiveStats();
         els.archiveBody.innerHTML = "";
-        els.archiveNote.textContent = "";
+        els.archiveNote.textContent = "The full archive is loaded only on this tab so the daily story opens faster.";
         return;
       }
 
@@ -3847,7 +3885,7 @@
       }
     }
 
-    function setMode(mode) {
+    async function setMode(mode) {
       state.mode = mode;
       document.body.dataset.mode = mode;
       els.modeButtons.forEach((button) => {
@@ -3857,6 +3895,14 @@
       });
       if (mode === "archive") {
         renderMedalistArchive();
+        try {
+          await loadMedalistArchive();
+          renderMedalistArchive();
+        } catch (error) {
+          els.archiveCoverage.textContent = "Unable to load the IMO archive. Please check the connection and try again.";
+          els.archiveCount.textContent = "Load failed";
+          showToast("IMO archive could not load");
+        }
         window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
       }
     }
