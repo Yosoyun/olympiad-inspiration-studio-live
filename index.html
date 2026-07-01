@@ -1736,9 +1736,9 @@
     function formatIndiaDate() {
       return new Intl.DateTimeFormat("en-IN", {
         timeZone: "Asia/Kolkata",
-        weekday: "short",
-        day: "2-digit",
-        month: "short",
+        weekday: "long",
+        day: "numeric",
+        month: "long",
         year: "numeric"
       }).format(new Date());
     }
@@ -2115,8 +2115,21 @@
       els.messageText.value = formatWhatsApp(profile);
     }
 
+    function firstName(profile) {
+      return profile.name.split(" ")[0];
+    }
+
     function bulletLines(items) {
       return (items || []).map((item) => `• ${item}`).join("\n\n");
+    }
+
+    function numberedJourney(profile) {
+      return (profile.trajectory || []).map((item, index) => {
+        const [label, ...rest] = item.split(":");
+        const title = rest.length ? label.trim() : `Step ${index + 1}`;
+        const body = rest.length ? rest.join(":").trim() : item;
+        return `${index + 1}. *${title}*\n   ${body}`;
+      }).join("\n\n");
     }
 
     function sourceLines(profile) {
@@ -2125,75 +2138,198 @@
 
     function proofLines(profile) {
       return getProofLinks(profile).map((proof) => [
-        `• ${proof.label}`,
+        `• *${proof.label}*`,
         `  ${proof.detail}`,
         `  ${proof.url}`
       ].join("\n")).join("\n\n");
     }
 
+    function studentQuestions(profile) {
+      const text = `${profile.domain} ${profile.role}`.toLowerCase();
+      if (text.includes("ai") || text.includes("software") || text.includes("data")) {
+        return [
+          "Can solving hard coding problems really connect to AI?",
+          "Why should I care about edge cases, testing, and clean logic?",
+          "Can my contest preparation become useful outside exams?"
+        ];
+      }
+      if (text.includes("blockchain") || text.includes("crypto")) {
+        return [
+          "Why do rules, proof, and security matter so much in technology?",
+          "Can abstract mathematics become real financial infrastructure?",
+          "Is careful reasoning more important than hype?"
+        ];
+      }
+      if (text.includes("physics") || text.includes("astronomy")) {
+        return [
+          "Why should I struggle with models, diagrams, and long derivations?",
+          "Can Olympiad thinking become real scientific insight?",
+          "How do accuracy and imagination work together?"
+        ];
+      }
+      return [
+        "Why am I spending so much time on proofs?",
+        "Will geometry, number theory, combinatorics, and inequalities matter later?",
+        "Can difficult problems really change the way I think?"
+      ];
+    }
+
+    function visualActivity(profile) {
+      const steps = (profile.trajectory || []).map((item) => item.split(":")[0].trim()).filter(Boolean).slice(0, 4);
+      const ladder = steps.length >= 3 ? steps.join("  ➜  ") : "Olympiad habit  ➜  Deep skill  ➜  Public impact";
+      return [
+        `Draw this ladder on the board: *${ladder}*`,
+        `Ask students: *Which step am I training today?*`,
+        `Let one student explain how today’s problem builds one habit from ${firstName(profile)}’s journey.`
+      ];
+    }
+
     function formatWhatsApp(profile) {
+      const questions = studentQuestions(profile);
+      const visual = visualActivity(profile);
+      const openingInsight = profile.indiaConnect?.[0] || profile.headline;
       return [
         "📜 *THE OLYMPIAD ALMANAC*",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
         "",
-        `📅 ${formatIndiaDate()}`,
-        "🇮🇳 For Indian students, parents & teachers",
+        `📅 *${formatIndiaDate()}*`,
         "",
-        "━━━━━━━━━━━━━━━━━━━━",
+        "🌟 *INSPIRATION PROFILE OF THE DAY*",
         "",
-        `👤 *${profile.name}*`,
-        `_${profile.role}_`,
+        `👤 *${profile.name.toUpperCase()}*`,
+        `_${profile.headline}_`,
         "",
-        `🌐 *Domain:* ${profile.domain}`,
+        `🌐 *Field:* ${profile.domain}`,
         `📍 *Country/Region:* ${profile.country}`,
+        `🧭 *Known for:* ${profile.role}`,
+        "🎓 *Best for:* IOQM / INMO / IMO / IOI classrooms",
         "",
-        `✨ *Why students should know ${profile.name.split(" ")[0]}*`,
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "",
+        "🌍 *WHY THIS NAME MATTERS FOR STUDENTS*",
+        "",
+        "Dear students,",
+        "",
+        "When you sit with a difficult problem, it is very natural to ask:",
+        "",
+        bulletLines(questions),
+        "",
+        `The story of *${profile.name}* gives one powerful answer: serious thinking compounds quietly before the world notices it.`,
+        "",
+        "Here is why this profile deserves attention:",
         "",
         bulletLines(profile.whyPopular),
         "",
-        "🏅 *Olympiad background*",
+        `✅ *${openingInsight}*`,
+        "",
+        "This is not a message saying every student must follow the same career. It is a reminder that the habits built during Olympiad preparation can travel far beyond the exam hall.",
+        "",
+        "It is a reminder that Olympiad preparation quietly builds:",
+        "",
+        "• patience under pressure,",
+        "• courage with unfamiliar problems,",
+        "• the discipline to check every case,",
+        "• the ability to explain ideas clearly, and",
+        "• the confidence to build something meaningful later.",
+        "",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "",
+        "🏆 *OLYMPIAD FOUNDATION*",
         "",
         bulletLines(profile.olympiad),
         "",
-        "🔐 *Authenticity / official proof*",
+        "📌 *Important classroom point:*",
         "",
-        proofLines(profile),
+        "A medal is visible. The real transformation is invisible: the student learns to think longer, fail better, and return to the problem with a sharper mind.",
         "",
-        "🚀 *Public achievement / impact*",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "",
+        "🕰️ *THE JOURNEY - HOW THE GROWTH HAPPENED*",
+        "",
+        numberedJourney(profile),
+        "",
+        "Notice the pattern:",
+        "",
+        "Olympiad success did not remain only as a certificate. It became a way of thinking, working, building, researching, teaching, or leading.",
+        "",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "",
+        "🚀 *PUBLIC ACHIEVEMENT / REAL-WORLD IMPACT*",
         "",
         bulletLines(profile.impact),
         "",
-        "🧭 *Trajectory: how the journey moved*",
+        "This is where students should connect the dots:",
         "",
-        bulletLines(profile.trajectory),
+        "The same habits used in a hard Olympiad problem can later appear in research papers, AI systems, secure technology, public writing, startups, or scientific discovery.",
         "",
-        "🧠 *Why the growth became fast*",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "",
+        "🧠 *WHAT MADE THE GROWTH FAST?*",
         "",
         bulletLines(profile.growthDrivers),
         "",
-        "🇮🇳 *Connect the dots for our students*",
+        "For students, this means one thing:",
+        "",
+        "Do not practise only to finish questions. Practise to become the kind of thinker who can handle unknown problems.",
+        "",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "",
+        "🇮🇳 *CONNECT THE DOTS FOR INDIAN STUDENTS*",
         "",
         bulletLines(profile.indiaConnect),
         profile.coachingConnect ? `\n\n🏫 *Coaching / classroom note*\n\n• ${profile.coachingConnect}` : null,
         "",
-        "🎯 *Today's 20-minute action*",
+        "A student preparing for IOQM, INMO, IMO, IOI, or any serious Olympiad should understand this deeply:",
+        "",
+        "Marks are short-term feedback. Thinking quality is long-term capital.",
+        "",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "",
+        "🎨 *VISUAL CLASSROOM ACTIVITY*",
+        "",
+        bulletLines(visual),
+        "",
+        "This turns the story from a post into a discussion. Students should see the journey, not just read the name.",
+        "",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "",
+        "🎯 *TODAY'S 20-MINUTE ACTION*",
         "",
         `• ${profile.practice}`,
         "",
-        "👨‍👩‍👧 *For parents and teachers*",
+        "Do this slowly. The goal is not speed today. The goal is better thinking.",
+        "",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "",
+        "👨‍👩‍👧 *FOR PARENTS AND TEACHERS*",
         "",
         `• ${profile.parentTeacherNote}`,
         "",
-        "✅ *Main message*",
+        "Please encourage effort that is not immediately visible: rough work, failed attempts, rewritten proofs, debugging, checking, and asking why.",
         "",
-        "• Olympiad preparation is not only for medals. It builds patience, logic, creativity, proof-writing, and courage with hard problems.",
+        "These are the habits that create serious students.",
         "",
-        "🔎 *Additional sources*",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "",
+        "🔐 *AUTHENTICITY / OFFICIAL PROOF*",
+        "",
+        proofLines(profile),
+        "",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "",
+        "🔎 *ADDITIONAL SOURCES*",
         "",
         sourceLines(profile),
         "",
-        "━━━━━━━━━━━━━━━━━━━━",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
         "",
-        "*Share this with one serious student today.*"
+        "✅ *Main message for students:*",
+        "",
+        "Do not prepare for Olympiads only to win a medal.",
+        "",
+        "Prepare because every serious problem is training your mind to become calmer, sharper, more creative, and more courageous.",
+        "",
+        "*Share this with one student who needs motivation today.*"
       ].filter((line) => line !== null && line !== undefined).join("\n");
     }
 

@@ -476,40 +476,40 @@ window.OLYMPIAD_PROFILES = [
     region: "North America",
     domain: "AI / Software Engineering",
     role: "Cognition co-founder and CTO",
-    headline: "From IOI medals to the technical core of an AI coding company.",
+    headline: "From IOI medals to the engineering discipline behind AI coding agents.",
     whyPopular: [
-      "Co-founded Cognition, a company known for AI software engineering agents.",
-      "Previously worked on technical systems at Scale AI.",
-      "Part of a new generation of Olympiad-trained AI founders."
+      "Co-founded Cognition, the company known for Devin and AI software-engineering agents.",
+      "His public story connects IOI-level algorithms with practical AI engineering and product architecture.",
+      "Students should notice the deeper lesson: contest coding is not only speed; it is correctness, edge cases, design, and persistence."
     ],
     olympiad: [
-      "Won IOI gold in 2014 and IOI silver in 2013 for the United States.",
-      "Built a foundation in algorithmic problem solving before moving into AI systems.",
-      "His profile is useful for showing that Olympiad skill can become startup engineering."
+      "His official IOI record shows silver in 2013 and gold in 2014 for the United States.",
+      "IOI problems demand algorithms, proof of correctness, implementation discipline, and careful handling of edge cases.",
+      "That same habit later maps naturally to AI systems where one weak assumption can break a real product."
     ],
     trajectory: [
-      "Contest phase: IOI medalist with strong coding depth.",
-      "Scale AI phase: worked around data and machine learning infrastructure.",
-      "Founder phase: became CTO at Cognition."
+      "Contest phase: built international-level algorithmic maturity through IOI preparation.",
+      "Infrastructure phase: worked around data and machine-learning systems at Scale AI.",
+      "Founder phase: became CTO at Cognition, where AI is applied to software-engineering workflows."
     ],
     growthDrivers: [
-      "Strong low-level correctness habits from programming contests.",
-      "Exposure to AI infrastructure before founding.",
-      "Ability to turn technical depth into product architecture."
+      "Programming contests trained him to think about all cases, not just the easy sample cases.",
+      "AI infrastructure exposure helped him see where real engineering bottlenecks appear.",
+      "The growth came from combining algorithmic depth with product judgment: not just writing code, but deciding what reliable software should do."
     ],
     impact: [
-      "Helped build AI tools for software engineering workflows.",
-      "Represents the practical side of AI: not only models, but systems around them.",
-      "Motivates students to combine algorithms with real engineering."
+      "Helped build AI tools aimed at changing how software engineering work gets done.",
+      "Represents the practical side of AI: models are important, but dependable systems around them are equally important.",
+      "Gives coding Olympiad students a concrete bridge from algorithms to real engineering impact."
     ],
     indiaConnect: [
-      "Good example for students who enjoy coding but are unsure how it connects to startups.",
-      "Shows that AI needs strong builders, not only model users.",
-      "Helpful for parent messages about coding depth."
+      "Very relevant for Indian students preparing for IOI-style programming, ICPC, or serious computer science.",
+      "Many students think coding practice is only for contests; this story shows that debugging, testing, and edge-case thinking can become career capital.",
+      "For parents and teachers, this is a good example of why deep coding practice is different from casual app usage or superficial AI prompting."
     ],
     coachingConnect: "",
-    practice: "Improve an old solution today until the code is shorter, clearer, and easier to test.",
-    parentTeacherNote: "Revising a solution is a serious learning activity, not a waste of time.",
+    practice: "Take one old coding solution, add five edge-case tests, and rewrite one messy part until another student can understand it.",
+    parentTeacherNote: "A student who patiently debugs, rewrites, and tests is not wasting time; they are building the reliability habit needed for serious engineering.",
     quality: "High confidence for medals through IOI statistics; company details from public profiles.",
     proofLinks: [
       { label: "IOI person record: Steven Hao", detail: "Official IOI profile showing his 2013 silver and 2014 gold.", url: "https://stats.ioinformatics.org/people/3113" },
