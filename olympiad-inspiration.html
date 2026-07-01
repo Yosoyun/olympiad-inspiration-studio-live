@@ -1685,6 +1685,14 @@
       background: #386f66;
     }
 
+    .archive-spark {
+      display: block;
+      margin-top: 7px;
+      color: #17130d;
+      border-color: #f4d793;
+      background: #f4d793;
+    }
+
     @media (max-width: 1160px) {
       .content-grid {
         grid-template-columns: 1fr;
@@ -1809,7 +1817,7 @@
       </div>
       <div class="view-switcher" role="tablist" aria-label="Workspace mode">
         <button class="mode-tab active" data-mode-button="story" type="button" role="tab" aria-selected="true">Story Studio</button>
-        <button class="mode-tab" data-mode-button="archive" type="button" role="tab" aria-selected="false">IMO Archive</button>
+        <button class="mode-tab" data-mode-button="archive" type="button" role="tab" aria-selected="false">IMO Sparks</button>
       </div>
       <div class="top-actions">
         <button class="icon-btn" id="prevBtn" type="button" title="Previous profile" aria-label="Previous profile">‹</button>
@@ -1996,6 +2004,10 @@
             <div>
               <h3>Verified IMO Medalist Directory</h3>
               <p id="archiveCoverage"></p>
+              <p class="archive-note">
+                Every row can now become a compact WhatsApp motivation spark. Deep public-impact stories remain
+                curated; archive sparks use only verified IMO facts and official proof links.
+              </p>
             </div>
             <span class="pill" id="archiveCount"></span>
           </div>
@@ -2023,7 +2035,7 @@
                   <th>Best Prize</th>
                   <th>Verified Record</th>
                   <th>Country / Years</th>
-                  <th>Proof</th>
+                  <th>Proof / Spark</th>
                 </tr>
               </thead>
               <tbody id="archiveBody"></tbody>
@@ -2433,7 +2445,7 @@
       const totals = medalistArchive.totals || {};
       const metrics = [
         [profiles.length, "Deep stories", "Student and teacher narratives with source links."],
-        [formatNumber(totals.people || medalists.length), "IMO people", `${medalistArchive.coverage || "1959-2025"} official directory coverage.`],
+        [formatNumber(totals.people || medalists.length), "Archive sparks", "Search official IMO people and copy verified motivation sparks."],
         [OFFICIAL_OLYMPIAD_RESOURCES.length, "Resource streams", "Math, physics, chemistry, biology, astronomy, informatics, AI."],
         [proofReceipts, "Proof receipts", `${sources} total profile source links kept inside the studio.`]
       ];
@@ -2623,6 +2635,15 @@
         proof.textContent = "Official IMO";
         proofCell.append(proof);
 
+        const spark = document.createElement("button");
+        spark.type = "button";
+        spark.className = "archive-spark";
+        spark.textContent = "Copy spark";
+        spark.addEventListener("click", () => {
+          copyText(formatArchiveSpark(person), "Archive spark");
+        });
+        proofCell.append(spark);
+
         if (profile) {
           const open = document.createElement("button");
           open.type = "button";
@@ -2768,11 +2789,11 @@
       return base.map((_, index) => base[(index + seed) % base.length]);
     }
 
-    const STYLE_DIVIDER = "━━━━━━━━━━━━━━━━━━━━";
-    const STYLE_FRAME_TOP = "╔══════════════════════╗";
-    const STYLE_FRAME_BOTTOM = "╚══════════════════════╝";
-    const STYLE_CARD_TOP = "╭───────────────╮";
-    const STYLE_CARD_BOTTOM = "╰───────────────╯";
+    const STYLE_DIVIDER = "༺═──────────────═༻";
+    const STYLE_FRAME_TOP = "╔═━─━─━∞◆∞━─━─━═╗";
+    const STYLE_FRAME_BOTTOM = "╚═━─━─━∞◆∞━─━─━═╝";
+    const STYLE_CARD_TOP = "┏━━━ ◈ ━━━┓";
+    const STYLE_CARD_BOTTOM = "┗━━━ ◈ ━━━┛";
     const FANCY_UPPER = {
       A: "𝑨", B: "𝑩", C: "𝑪", D: "𝑫", E: "𝑬", F: "𝑭", G: "𝑮", H: "𝑯", I: "𝑰",
       J: "𝑱", K: "𝑲", L: "𝑳", M: "𝑴", N: "𝑵", O: "𝑶", P: "𝑷", Q: "𝑸", R: "𝑹",
@@ -2784,7 +2805,7 @@
     }
 
     function sectionTitle(icon, text) {
-      return `${icon} *${fancyTitle(text)}*`;
+      return `${icon} *${String(text || "").toUpperCase()}*`;
     }
 
     function styleFrame(title, subtitle = "") {
@@ -2874,24 +2895,54 @@
       }).join("\n\n⬇️\n\n");
     }
 
-    function sourceLines(profile) {
-      return profile.sources.map((source, index) => [
+    function sourceLines(profile, limit = Infinity) {
+      return profile.sources.slice(0, limit).map((source, index) => [
         `*${index + 1}. ${source.label}*`,
         source.type ? `${source.type}:` : null,
         source.url
       ].filter(Boolean).join("\n")).join("\n\n");
     }
 
-    function officialResourceLines() {
-      return OFFICIAL_OLYMPIAD_RESOURCES.map((resource, index) => [
+    function focusedResources(profile) {
+      if (!profile) return OFFICIAL_OLYMPIAD_RESOURCES;
+      const text = `${profile.domain} ${profile.role} ${profile.headline}`.toLowerCase();
+      const priority = ["IMO", "India", "IOQM"];
+      if (text.includes("ioi") || text.includes("software") || text.includes("algorithm") || text.includes("coding")) {
+        priority.push("IOI", "IOI Stats");
+      }
+      if (text.includes("ai")) priority.push("IOAI", "AIMO");
+      if (text.includes("physics") || text.includes("astronomy")) priority.push("IPhO", "IOAA");
+      if (text.includes("chem")) priority.push("IChO");
+      if (text.includes("bio")) priority.push("IBO");
+      if (text.includes("math")) priority.push("AIMO");
+      const seen = new Set();
+      const picked = priority
+        .map((tag) => OFFICIAL_OLYMPIAD_RESOURCES.find((resource) => resource.tag === tag))
+        .filter(Boolean)
+        .filter((resource) => {
+          if (seen.has(resource.tag)) return false;
+          seen.add(resource.tag);
+          return true;
+        });
+      OFFICIAL_OLYMPIAD_RESOURCES.forEach((resource) => {
+        if (!seen.has(resource.tag) && picked.length < 6) {
+          picked.push(resource);
+          seen.add(resource.tag);
+        }
+      });
+      return picked;
+    }
+
+    function officialResourceLines(profile = null, limit = Infinity) {
+      return focusedResources(profile).slice(0, limit).map((resource, index) => [
         `*${index + 1}. ${resource.tag} - ${resource.label}*`,
         `${resource.note}:`,
         resource.url
       ].join("\n")).join("\n\n");
     }
 
-    function coverageLines() {
-      return COVERAGE_STREAMS.map((stream) => [
+    function coverageLines(limit = Infinity) {
+      return COVERAGE_STREAMS.slice(0, limit).map((stream) => [
         `${stream.icon} *${stream.title}*`,
         `Scope: ${stream.scope}`,
         `Use: ${stream.status}`
@@ -3001,201 +3052,119 @@
     }
 
     function formatStudentWhatsApp(profile) {
-      const questions = studentQuestions(profile);
       const visual = visualActivity(profile);
       const openingInsight = profile.indiaConnect?.[0] || profile.headline;
       const lens = thinkingLens(profile);
-      const opening = teacherOpening(profile);
+      const icons = emojiPalette(profile);
       return [
-        styleFrame(`📜 *${fancyTitle("THE OLYMPIAD ALMANAC")}*`),
-        "",
-        "*One true story. One thinking habit. One action for today.*",
-        "",
-        STYLE_DIVIDER,
+        styleFrame(`📜 *${fancyTitle("THE OLYMPIAD ALMANAC")}*`, "✦ *One true story. One habit. One serious attempt today.* ✦"),
         "",
         `📅 *${formatIndiaDate()}*`,
-        "🇮🇳 *For serious IOQM / INMO / IMO / IOI aspirants*",
-        "",
-        STYLE_DIVIDER,
-        "",
-        sectionTitle("🎙️", "Student Mentor Spark"),
-        "",
-        mentorSpark(opening),
-        "",
-        "🧠 *Today’s Thinking Lens*",
-        "",
-        quoteLine(`${lens} under pressure`),
+        "🇮🇳 *For IOQM / INMO / IMO / IOI / IPhO / IChO / IOAI aspirants*",
         "",
         `⌁ *${thinkingEquation(profile)}* ⌁`,
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("🌟", "Inspiration Profile Of The Day"),
+        sectionTitle("👤", "Profile Of The Day"),
         "",
-        `👤 *${fancyTitle(profile.name)}*`,
+        `*${fancyTitle(profile.name)}*`,
         "",
-        emphasizeKeyTerms(profile.headline),
+        `_${emphasizeKeyTerms(profile.headline)}_`,
         "",
-        STYLE_CARD_TOP,
-        sectionTitle("🪪", "Profile Snapshot"),
-        STYLE_CARD_BOTTOM,
-        "",
-        `🌐 *Field:* ${profile.domain}`,
-        "",
-        `📍 *Country/Region:* ${profile.country}`,
-        "",
-        `🧭 *Known for:* ${emphasizeKeyTerms(profile.role)}`,
-        "",
-        "🎓 *Best suited for:* IOQM / INMO / IMO / IOI classrooms",
+        `${icons[0]} *Field:* ${profile.domain}`,
+        `${icons[1]} *Country/Region:* ${profile.country}`,
+        `${icons[2]} *Known for:* ${emphasizeKeyTerms(profile.role)}`,
+        `${icons[3]} *Thinking lens:* ${lens} under pressure`,
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("🌍", "Why This Name Matters"),
+        sectionTitle("🔥", "Why This Should Matter To You"),
         "",
-        "Dear students,",
+        "Dear student, if a hard problem is making you feel slow, confused, or behind, pause for a moment.",
         "",
-        "When you sit with a difficult problem, it is very natural to ask:",
+        "The point of Olympiad preparation is not only to collect medals. It is to train a mind that can stay calm when the path is not visible.",
         "",
-        bulletLines(questions, profile),
+        bulletLines(profile.whyPopular.slice(0, 3), profile),
         "",
-        `The story of *${profile.name}* gives one powerful answer:`,
-        "",
-        quoteLine("Serious thinking compounds quietly before the world notices it."),
-        "",
-        "Here is why this profile deserves attention:",
-        "",
-        bulletLines(profile.whyPopular, profile),
+        quoteLine("A difficult problem is not blocking you; it is building you."),
         "",
         `✅ ${emphasizeKeyTerms(openingInsight)}`,
-        "",
-        "This is not a message saying every student must follow the same career. It is a reminder that the habits built during Olympiad preparation can travel far beyond the exam hall.",
-        "",
-        sectionTitle("🧬", "What Olympiad Preparation Quietly Builds"),
-        "",
-        habitIngredientLines(profile),
         "",
         STYLE_DIVIDER,
         "",
         sectionTitle("🏆", "Olympiad Foundation"),
         "",
-        bulletLines(profile.olympiad, profile),
+        bulletLines(profile.olympiad.slice(0, 3), profile),
         "",
-        "📌 *Important classroom point:*",
-        "",
-        quoteLine("A medal is visible. The real transformation is invisible."),
-        "",
-        "The student learns to think longer, fail better, analyse mistakes, and return with a sharper mind.",
+        quoteLine("The medal is visible. The thinking transformation is invisible."),
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("🕰️", "The Journey"),
+        sectionTitle("🧭", "Journey Map"),
         "",
         numberedJourney(profile),
         "",
-        "📍 *Notice the pattern:*",
-        "",
-        "Olympiad success did not remain only as a certificate.",
-        "",
-        "It became a way of thinking, working, building, researching, teaching, or leading.",
+        "Notice the pattern: the Olympiad phase did not remain only as a certificate. It became a way of thinking, building, researching, teaching, or leading.",
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("🚀", "Public Achievement And Real-World Impact"),
+        sectionTitle("🚀", "Public Impact"),
         "",
-        bulletLines(profile.impact, profile),
+        bulletLines(profile.impact.slice(0, 3), profile),
         "",
-        "This is where students should connect the dots:",
-        "",
-        "The same habits used in a hard Olympiad problem can later appear in research papers, AI systems, secure technology, public writing, startups, or scientific discovery.",
+        "The connection is simple: the same habits used in a hard Olympiad problem later appear in research, AI systems, secure technology, proofs, startups, and scientific discovery.",
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("🧠", "What Made The Growth Fast?"),
+        sectionTitle("🧬", "What You Are Quietly Training"),
         "",
-        bulletLines(profile.growthDrivers, profile),
-        "",
-        "🎯 *The lesson for students*",
-        "",
-        quoteLine("Do not practise only to finish questions."),
-        "",
-        quoteLine("Practise to become the kind of thinker who can handle unknown problems."),
+        habitIngredientLines(profile),
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("🇮🇳", "Connecting The Dots For Indian Students"),
+        sectionTitle("🇮🇳", "Connect This To Your Preparation"),
         "",
-        bulletLines(profile.indiaConnect, profile),
-        safeCoachingConnect(profile) ? `\n\n🏫 *Coaching / classroom note*\n\n${emojiPalette(profile)[0]} ${emphasizeKeyTerms(safeCoachingConnect(profile))}` : null,
-        "",
-        "A student preparing for IOQM, INMO, IMO, IOI, or any serious Olympiad should understand this deeply:",
+        bulletLines(profile.indiaConnect.slice(0, 3), profile),
+        safeCoachingConnect(profile) ? `\n\n🏫 *Classroom/coaching note*\n${icons[4]} ${emphasizeKeyTerms(safeCoachingConnect(profile))}` : null,
         "",
         styleFrame("*Marks are short-term feedback.*\n\n*Thinking quality is long-term capital.*"),
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("🎨", "Visual Classroom Activity"),
-        "",
-        bulletLines(visual, profile),
-        "",
-        "This turns the story from a post into a small learning discussion. Students should see the journey, not just read the name.",
-        "",
-        STYLE_DIVIDER,
-        "",
         sectionTitle("🎯", "Today's 20-Minute Action"),
         "",
-        `${emojiPalette(profile)[1]} ${emphasizeKeyTerms(profile.practice)}`,
+        `${icons[5] || icons[0]} ${emphasizeKeyTerms(profile.practice)}`,
         "",
-        "⏳ Do this slowly.",
-        "",
-        quoteLine("The goal is not speed today. The goal is better thinking."),
+        "Do it slowly. Write the reason behind each step. The goal today is not speed; the goal is better thinking.",
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("👨‍👩‍👧", "For Parents And Teachers"),
+        sectionTitle("🎨", "Mini Visual Activity"),
         "",
-        `${emojiPalette(profile)[2]} ${emphasizeKeyTerms(profile.parentTeacherNote)}`,
+        bulletLines(visual.slice(0, 3), profile),
         "",
-        "Please encourage effort that is not immediately visible: rough work, failed attempts, rewritten proofs, debugging, checking, and asking why.",
-        "",
-        quoteLine("These are the habits that create serious students."),
+        "This changes the story from a forward into a discussion.",
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("🔐", "Authenticity And Official Proof"),
+        sectionTitle("🔐", "Proof And Sources"),
         "",
         proofLines(profile),
         "",
-        STYLE_DIVIDER,
-        "",
-        sectionTitle("🔎", "Additional Sources"),
-        "",
-        sourceLines(profile),
+        sourceLines(profile, 3),
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("🌐", "Olympiad Resource Desk"),
+        sectionTitle("🌐", "Focused Olympiad Desk"),
         "",
-        coverageLines(),
-        "",
-        sectionTitle("🛡️", "Quality Promise"),
-        "",
-        qualityProtocolLines(profile),
-        "",
-        officialResourceLines(),
+        officialResourceLines(profile, 6),
         "",
         STYLE_DIVIDER,
         "",
         sectionTitle("✅", "Learning Takeaway"),
         "",
-        "Do not prepare for Olympiads only to win a medal.",
-        "",
-        "Prepare because every serious problem is training your mind to become:",
-        "",
-        "🧘 Calmer",
-        "🧠 Sharper",
-        "🎨 More creative",
-        "🛡️ More resilient",
-        "🔥 More courageous",
+        "Prepare because every serious problem is training your mind to become calmer, sharper, more creative, more resilient, and more courageous.",
         "",
         styleFrame("✍️ *Today’s Reflection*\n\n*What did this story teach me about my own preparation?*")
       ].filter((line) => line !== null && line !== undefined).join("\n");
@@ -3204,13 +3173,9 @@
     function formatTeacherWhatsApp(profile) {
       const visual = visualActivity(profile);
       const lens = thinkingLens(profile);
-      const opening = teacherOpening(profile);
       const icons = emojiPalette(profile);
       return [
-        styleFrame(`📜 *${fancyTitle("THE OLYMPIAD ALMANAC")}*`),
-        "",
-        "👩‍🏫 *TEACHER MODE*",
-        "*A classroom-ready story to encourage serious Olympiad learners.*",
+        styleFrame(`📜 *${fancyTitle("THE OLYMPIAD ALMANAC")}*`, "👩‍🏫 *TEACHER MODE: story, habit, classroom action*"),
         "",
         STYLE_DIVIDER,
         "",
@@ -3219,36 +3184,29 @@
         "",
         "Dear Teachers,",
         "",
-        "This note is not meant to tell you something you do not know. It is meant to give you a polished classroom spark: one verified story, one thinking habit, and one small activity that can help students return to hard problems with courage.",
+        "This note is not meant to tell you something you already know. It is a ready classroom spark: one verified story, one thinking habit, and one short activity to help students return to hard problems with courage.",
         "",
-        "🧠 *Today’s Teaching Lens*",
-        "",
-        quoteLine(`${lens} under pressure`),
+        `🧠 *Teaching lens:* ${lens} under pressure`,
         "",
         `⌁ *${thinkingEquation(profile)}* ⌁`,
         "",
-        sectionTitle("🎙️", "Suggested Opening Line For Class"),
+        STYLE_DIVIDER,
         "",
-        mentorSpark(opening),
+        sectionTitle("🎙️", "Opening Line For Class"),
+        "",
+        mentorSpark(teacherOpening(profile)),
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("👤", "Profile For Today"),
+        sectionTitle("👤", "Profile For Today's Discussion"),
         "",
         `*${fancyTitle(profile.name)}*`,
         "",
-        emphasizeKeyTerms(profile.headline),
-        "",
-        STYLE_CARD_TOP,
-        sectionTitle("🪪", "Teacher Snapshot"),
-        STYLE_CARD_BOTTOM,
+        `_${emphasizeKeyTerms(profile.headline)}_`,
         "",
         `${icons[0]} *Field:* ${profile.domain}`,
-        "",
         `${icons[1]} *Country/Region:* ${profile.country}`,
-        "",
         `${icons[2]} *Known for:* ${emphasizeKeyTerms(profile.role)}`,
-        "",
         `${icons[3]} *Classroom value:* Shows students how Olympiad habits become long-term thinking capital.`,
         "",
         STYLE_DIVIDER,
@@ -3263,13 +3221,13 @@
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("🏆", "Verified Olympiad And Achievement Context"),
+        sectionTitle("🏆", "Verified Olympiad Context"),
         "",
-        bulletLines(profile.olympiad, profile),
+        bulletLines(profile.olympiad.slice(0, 3), profile),
         "",
         sectionTitle("🚀", "Public Impact Students Can Connect With"),
         "",
-        bulletLines(profile.impact, profile),
+        bulletLines(profile.impact.slice(0, 3), profile),
         "",
         STYLE_DIVIDER,
         "",
@@ -3297,6 +3255,12 @@
         "",
         STYLE_DIVIDER,
         "",
+        sectionTitle("🧬", "Habits To Name Explicitly"),
+        "",
+        habitIngredientLines(profile),
+        "",
+        STYLE_DIVIDER,
+        "",
         sectionTitle("💬", "Words That Can Encourage A Struggling Student"),
         "",
         bulletLines([
@@ -3307,27 +3271,19 @@
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("🔐", "Authenticity And Official Proof"),
+        sectionTitle("🔐", "Proof And Sources"),
         "",
         proofLines(profile),
         "",
-        STYLE_DIVIDER,
-        "",
-        sectionTitle("🔎", "Profile Sources"),
-        "",
-        sourceLines(profile),
+        sourceLines(profile, 3),
         "",
         STYLE_DIVIDER,
         "",
-        sectionTitle("🌐", "Olympiad Resource Desk"),
+        sectionTitle("🌐", "Focused Olympiad Desk"),
         "",
-        coverageLines(),
+        officialResourceLines(profile, 6),
         "",
-        sectionTitle("🛡️", "Quality Promise"),
-        "",
-        qualityProtocolLines(profile),
-        "",
-        officialResourceLines(),
+        "Quality rule: person-specific coaching claims are included only when supported by a credible source. Otherwise, the message stays respectful to every teacher, institute, and student.",
         "",
         STYLE_DIVIDER,
         "",
@@ -3337,6 +3293,69 @@
         "",
         styleFrame("✍️ *Classroom Reflection*\n\n*Ask students to write one learning line after the discussion. That line matters more than a simple forward.*")
       ].filter((line) => line !== null && line !== undefined).join("\n");
+    }
+
+    function formatArchiveSpark(person) {
+      const award = AWARD_LABELS[person.bestAward] || person.bestAward || "Verified";
+      const years = (person.years || []).join(", ");
+      const countries = (person.countries || []).join(" / ");
+      const records = awardSummary(person);
+      return [
+        styleFrame(`📜 *${fancyTitle("THE OLYMPIAD ALMANAC")}*`, "✦ *Verified IMO Medalist Spark* ✦"),
+        "",
+        `📅 *${formatIndiaDate()}*`,
+        "🇮🇳 *For students who need one honest push today*",
+        "",
+        STYLE_DIVIDER,
+        "",
+        sectionTitle("👤", "Official Archive Profile"),
+        "",
+        `*${person.name}*`,
+        "",
+        `🥇 *Best listed prize:* ${award}`,
+        `📍 *Team/country:* ${countries}`,
+        `📅 *Year(s):* ${years}`,
+        `🧾 *Record summary:* ${records || "Official IMO contestant record"}`,
+        "",
+        STYLE_DIVIDER,
+        "",
+        sectionTitle("🧠", "Student Lesson"),
+        "",
+        "This spark is intentionally simple: one verified student, one official record, one lesson.",
+        "",
+        quoteLine("Behind every medal is a long season of attempts that nobody saw."),
+        "",
+        "If you are struggling today, do not compare only the final result. Study the habit behind the result: patience, proof, revision, and courage with unfamiliar problems.",
+        "",
+        STYLE_DIVIDER,
+        "",
+        sectionTitle("🎯", "Today's 20-Minute Action"),
+        "",
+        "Choose one Olympiad problem you could not solve earlier.",
+        "",
+        "Write three things only:",
+        "",
+        "1. What did I try?",
+        "2. Where did my idea break?",
+        "3. What will I test next?",
+        "",
+        quoteLine("A serious attempt is never wasted when it becomes clearer thinking."),
+        "",
+        STYLE_DIVIDER,
+        "",
+        sectionTitle("🔐", "Official Proof"),
+        "",
+        `*IMO contestant record:*`,
+        person.officialUrl,
+        "",
+        STYLE_DIVIDER,
+        "",
+        sectionTitle("✅", "Takeaway"),
+        "",
+        "Do not prepare only for a medal. Prepare because every honest problem trains the mind to become calmer, sharper, and more courageous.",
+        "",
+        styleFrame("✍️ *Reflection*\n\n*What did I learn from today's struggle?*")
+      ].join("\n");
     }
 
     async function copyText(text, label) {
